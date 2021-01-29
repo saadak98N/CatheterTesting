@@ -85,7 +85,6 @@ namespace WindowsFormsApp1
             //serialPort1.Open();
         }
 
-        //private delegate void FinalFrame_Callback(object sender, NewFrameEventArgs eventArgs);
 
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
