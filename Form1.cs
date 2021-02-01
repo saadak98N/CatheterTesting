@@ -23,6 +23,9 @@ namespace WindowsFormsApp1
         //camera feed
         FilterInfoCollection usbCams;
         VideoCaptureDevice cam = null;
+        VideoCaptureDevice cam2 = null;
+        VideoCaptureDevice cam3 = null;
+        VideoCaptureDevice cam4 = null;
 
         //Stop watch for graphs
         private System.Diagnostics.Stopwatch mStopWatch = new System.Diagnostics.Stopwatch();
@@ -64,6 +67,24 @@ namespace WindowsFormsApp1
             default_speed = 30;
 
             usbCams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            if (usbCams.Count > 1)
+            {
+                cam2 = new VideoCaptureDevice(usbCams[1].MonikerString);
+                cam2.NewFrame += FinalFrame_NewFrame2;
+                cam2.Start();
+                if(usbCams.Count > 2)
+                {
+                    cam3 = new VideoCaptureDevice(usbCams[2].MonikerString);
+                    cam3.NewFrame += FinalFrame_NewFrame3;
+                    cam3.Start();
+                    if(usbCams.Count >3)
+                    {
+                        cam4 = new VideoCaptureDevice(usbCams[3].MonikerString);
+                        cam4.NewFrame += FinalFrame_NewFrame4;
+                        cam4.Start();
+                    }
+                }
+            }
             foreach (FilterInfo Device in usbCams)
                 System.Diagnostics.Debug.WriteLine(Device.Name);
             cam = new VideoCaptureDevice(usbCams[0].MonikerString);
@@ -111,6 +132,86 @@ namespace WindowsFormsApp1
             g.DrawImage(bmp, dest_rect, src_rect, GraphicsUnit.Pixel);
             g.Dispose();
             this.pictureBox2.Image = resized;
+        }
+        private void FinalFrame_NewFrame2(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
+            bool source_is_wider = (float)bmp.Width / bmp.Height > (float)pictureBox3.Width / pictureBox3.Height;
+            var resized = new Bitmap(pictureBox3.Width, pictureBox3.Height);
+            var g = Graphics.FromImage(resized);
+            var dest_rect = new Rectangle(0, 0, pictureBox3.Width, pictureBox3.Height);
+            Rectangle src_rect;
+
+            if (source_is_wider)
+            {
+                float size_ratio = (float)pictureBox3.Height / bmp.Height;
+                int sample_width = (int)(pictureBox3.Width / size_ratio);
+                src_rect = new Rectangle((bmp.Width - sample_width) / 2, 0, sample_width, bmp.Height);
+            }
+            else
+            {
+                float size_ratio = (float)pictureBox3.Width / bmp.Width;
+                int sample_height = (int)(pictureBox3.Height / size_ratio);
+                src_rect = new Rectangle(0, (bmp.Height - sample_height) / 2, bmp.Width, sample_height);
+            }
+
+            g.DrawImage(bmp, dest_rect, src_rect, GraphicsUnit.Pixel);
+            g.Dispose();
+            this.pictureBox3.Image = resized;
+        }
+
+        private void FinalFrame_NewFrame3(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
+            bool source_is_wider = (float)bmp.Width / bmp.Height > (float)pictureBox4.Width / pictureBox4.Height;
+            var resized = new Bitmap(pictureBox4.Width, pictureBox4.Height);
+            var g = Graphics.FromImage(resized);
+            var dest_rect = new Rectangle(0, 0, pictureBox4.Width, pictureBox4.Height);
+            Rectangle src_rect;
+
+            if (source_is_wider)
+            {
+                float size_ratio = (float)pictureBox4.Height / bmp.Height;
+                int sample_width = (int)(pictureBox4.Width / size_ratio);
+                src_rect = new Rectangle((bmp.Width - sample_width) / 2, 0, sample_width, bmp.Height);
+            }
+            else
+            {
+                float size_ratio = (float)pictureBox4.Width / bmp.Width;
+                int sample_height = (int)(pictureBox4.Height / size_ratio);
+                src_rect = new Rectangle(0, (bmp.Height - sample_height) / 2, bmp.Width, sample_height);
+            }
+
+            g.DrawImage(bmp, dest_rect, src_rect, GraphicsUnit.Pixel);
+            g.Dispose();
+            this.pictureBox4.Image = resized;
+        }
+
+        private void FinalFrame_NewFrame4(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
+            bool source_is_wider = (float)bmp.Width / bmp.Height > (float)pictureBox5.Width / pictureBox5.Height;
+            var resized = new Bitmap(pictureBox5.Width, pictureBox5.Height);
+            var g = Graphics.FromImage(resized);
+            var dest_rect = new Rectangle(0, 0, pictureBox5.Width, pictureBox5.Height);
+            Rectangle src_rect;
+
+            if (source_is_wider)
+            {
+                float size_ratio = (float)pictureBox5.Height / bmp.Height;
+                int sample_width = (int)(pictureBox5.Width / size_ratio);
+                src_rect = new Rectangle((bmp.Width - sample_width) / 2, 0, sample_width, bmp.Height);
+            }
+            else
+            {
+                float size_ratio = (float)pictureBox5.Width / bmp.Width;
+                int sample_height = (int)(pictureBox5.Height / size_ratio);
+                src_rect = new Rectangle(0, (bmp.Height - sample_height) / 2, bmp.Width, sample_height);
+            }
+
+            g.DrawImage(bmp, dest_rect, src_rect, GraphicsUnit.Pixel);
+            g.Dispose();
+            this.pictureBox5.Image = resized;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -214,17 +315,11 @@ namespace WindowsFormsApp1
             SerialPort sp = (SerialPort)sender;
             String line = sp.ReadExisting();
             SetText(line);
-            //UpdateGraph(double.Parse(line), time);
             System.Diagnostics.Debug.WriteLine(line);
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            //string data = serialPort1.ReadLine();
-            //System.Diagnostics.Debug.WriteLine(data);
-
-            //MessageBox.Show(serialPort1.ReadLine());
-            //this.textBox1.Text = "" + line;
         }
 
         private delegate void SetTextCallback(string text);
@@ -281,6 +376,19 @@ namespace WindowsFormsApp1
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             cam.Stop();
+            if (usbCams.Count > 1)
+            {
+                cam2.Stop();
+                if(usbCams.Count > 2)
+                {
+                    cam3.Stop();
+                    if (usbCams.Count > 3)
+                    {
+                        cam4.Stop();
+                    }
+                }
+                
+            }
             System.Windows.Forms.Application.Exit();
         }
 
