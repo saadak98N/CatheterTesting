@@ -93,7 +93,6 @@ namespace WindowsFormsApp1
             form3.TopMost = true;
             form3.Show();
             serialPort1.PortName = comname;
-            serialPort1.Open();
             try
             {
                 serialPort1.Open();
@@ -253,6 +252,10 @@ namespace WindowsFormsApp1
                         this.button3.Enabled = false;
                         this.button2.Enabled = false;
                         this.button5.Enabled = true;
+                        chart1.Series["Force vs Time"].Points.Clear();
+                        count = 0;
+                        this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
+
                         break;
 
                     case DialogResult.No:

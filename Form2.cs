@@ -30,11 +30,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             if(this.textBox1.Text == password && combox.SelectedIndex>-1 && drivebox.SelectedIndex>-1)
@@ -50,9 +45,13 @@ namespace WindowsFormsApp1
                     this.textBox1.Clear();
                     this.label2.Visible = true;
                 }
-                if (combox.SelectedIndex<0 || drivebox.SelectedIndex<0)
+                if (drivebox.SelectedIndex<0)
                 {
                     this.label6.Visible = true;
+                }
+                if (combox.SelectedIndex < 0)
+                {
+                    this.label7.Visible = true;
                 }
             }
             
