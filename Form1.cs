@@ -59,8 +59,8 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             max_force = 1000;
-            default_speed = 30;
-            position = 1;
+            default_speed = 10;
+            position = 3;
             
             form3 = new Form3(default_speed, peak_force, max_force, position);
             form3.button2.Click += new EventHandler(configButton);
@@ -182,12 +182,16 @@ namespace WindowsFormsApp1
             if (second == 0)
             {
                 serialPort1.WriteLine("*CP000\'");
-                this.button2.BackgroundImage = Properties.Resources.play;
+                System.Diagnostics.Debug.WriteLine("Paused");
+
+                this.button2.BackgroundImage = Properties.Resources.resume;
                 second = 1;
             }
             else
             {
                 serialPort1.WriteLine("*CR000\'");
+                System.Diagnostics.Debug.WriteLine("Resumed");
+
                 this.button2.BackgroundImage = Properties.Resources.pause;
                 second = 0;
             }
@@ -210,7 +214,7 @@ namespace WindowsFormsApp1
                 writer = new StreamWriter(textName, true);
                 using (writer)
                 {
-                    writer.Write("time,force");
+                    writer.Write("time,force \n");
                 }
                 this.button1.Enabled = false;
                 this.button2.Enabled = true;
@@ -247,24 +251,77 @@ namespace WindowsFormsApp1
         private void SerialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
-            String line = sp.ReadExisting();
-            System.Diagnostics.Debug.WriteLine("Recv: "+line+" "+line.Count());
-            if(line.Count()>6 && line.Count()<15)
+            int bytesToRead = sp.BytesToRead;
+            var bytes = new byte[7];
+            sp.Read(bytes, 0, 7);
+            //sbyte line = sp.ReadExisting();
+            if (bytesToRead%7 == 0)
             {
-                if(line[0]=='*' && line[line.Count()-2] == '\'')
+                System.Diagnostics.Debug.WriteLine("Recv: " + bytes + " " + bytesToRead);
+                string bitString = BitConverter.ToString(bytes);
+                System.Diagnostics.Debug.WriteLine("String: " + bitString);
+                List<string> listStrLineElements = bitString.Split('-').ToList();
+                if(listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
                 {
-                    String t = line.Substring(1, line.Count()-3);
-                    System.Diagnostics.Debug.WriteLine("Formatted: "+t);
-                    SetText(t);
+                    int decValue1 = int.Parse(listStrLineElements[1], System.Globalization.NumberStyles.HexNumber);
+                    int decValue2 = int.Parse(listStrLineElements[2], System.Globalization.NumberStyles.HexNumber);
+                    int decValue3 = int.Parse(listStrLineElements[3], System.Globalization.NumberStyles.HexNumber);
+                    int decValue4 = int.Parse(listStrLineElements[4], System.Globalization.NumberStyles.HexNumber);
+                    int decValue5 = int.Parse(listStrLineElements[5], System.Globalization.NumberStyles.HexNumber);
+                    int neg = 1;
+                    if (decValue1 == 1)
+                    {
+                        neg = -1;
+                    }
+                    double toSend = ((100 * decValue2) + (10 * decValue3) + (decValue4) + (decValue5 * 0.1))*neg;
+                    System.Diagnostics.Debug.WriteLine("Force: " + toSend.ToString());
+                    int times = bytesToRead / 7;
+                    System.Diagnostics.Debug.WriteLine("TImes " + times);
+                    if (times < 5)
+                    {
+                        while (times >= 1)
+                        {
+                            SetText(toSend.ToString());
+                            times--;
+                        }
+                    }
+                    SetText(toSend.ToString());
+
                 }
+
+                System.Diagnostics.Debug.WriteLine("THE END!");
+                sp.DiscardInBuffer();
+                //sp.DiscardOutBuffer();
             }
-            if (line.Count() == 4)
+
+            /*var charsToRemove = new string[] { "-"};
+            foreach (var c in charsToRemove)
             {
-                if(line[0]=='*' && line[2]=='\'' && line[3] == '\n')
-                {
-                    SetText("Enable");
-                }
+                bitString = bitString.Replace(c, string.Empty);
             }
+            System.Diagnostics.Debug.WriteLine("String2: "+bitString);
+            //string s = "10C5EC9C6";
+            long n = Int64.Parse(bitString, System.Globalization.NumberStyles.HexNumber);
+            System.Diagnostics.Debug.WriteLine("String3: " + n);
+            decimal d = (decimal)Int64.Parse(bitString, System.Globalization.NumberStyles.HexNumber);
+            System.Diagnostics.Debug.WriteLine("String4: " + n);*/
+
+            /*   if(line.Count()>6 && line.Count()<15)
+               {
+                   if(line[0]=='*' && line[line.Count()-2] == '\'')
+                   {
+                       String t = line.Substring(1, line.Count()-3);
+                       System.Diagnostics.Debug.WriteLine("Formatted: "+t);
+                       SetText(t);
+                   }
+               }
+               if (line.Count() == 4)
+               {
+                   if(line[0]=='*' && line[2]=='\'' && line[3] == '\n')
+                   {
+                       SetText("Enable");
+                   }
+               }*/
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -289,8 +346,9 @@ namespace WindowsFormsApp1
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + text);
-                    double data = 0.0;
+                    double data = double.Parse(text);
+                    System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
+                    /*double data = 0.0;
                     int neg = 1;
                     try
                     {
@@ -313,14 +371,15 @@ namespace WindowsFormsApp1
                     catch (System.FormatException)
                     {
                         data = prev;
-                    }
+                    }*/
 
                     if(data <= max_force)
                     {
                         String toSend = "";
                         String t = DateTime.Now.ToString();
                         toSend = String.Concat(t, ",");
-                        toSend = String.Concat(toSend, data);
+                        toSend = String.Concat(toSend, data.ToString());
+                        toSend = String.Concat(toSend, "\n");
                         writer = new StreamWriter(textName, true);
                         using (writer)
                         {
@@ -343,8 +402,8 @@ namespace WindowsFormsApp1
                     }
                     else
                     {
-                        serialPort1.WriteLine("*CP000\'");
-                        this.button2.BackgroundImage = Properties.Resources.play;
+                        serialPort1.WriteLine("*CPF00\'");
+                        this.button2.BackgroundImage = Properties.Resources.resume;
                         second = 1;
                         MessageBox.Show("Force values exceeded max force, testing paused.");
                     }
