@@ -14,8 +14,10 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        String drive;
         //force range
         int max_force;
+        int min_force;
         int position;
         double peak_force = 0.0;
         int default_speed;
@@ -24,6 +26,7 @@ namespace WindowsFormsApp1
 
         //camera feed
         FilterInfoCollection usbCams;
+        String camname = "A4tech FHD 1080P PC Camera";
         VideoCaptureDevice cam = null;
         //VideoCaptureDevice cam2 = null;
         //VideoCaptureDevice cam3 = null;
@@ -31,7 +34,6 @@ namespace WindowsFormsApp1
 
 
         //Data management for graph
-        private double prev = 0;
         long count = 0;
         String textName;
         private List<double> array = new List<double>();
@@ -55,23 +57,30 @@ namespace WindowsFormsApp1
 
         private int second = 0;
 
-        public Form1()
+        public Form1(String comname, String drivename)
         {
             InitializeComponent();
             max_force = 1000;
+            min_force = -1000;
             default_speed = 10;
             position = 3;
+            drive = drivename;
             
-            form3 = new Form3(default_speed, peak_force, max_force, position);
+            form3 = new Form3(default_speed, peak_force, max_force, position, min_force);
             form3.button2.Click += new EventHandler(configButton);
             usbCams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo Device in usbCams)
+            {
                 System.Diagnostics.Debug.WriteLine(Device.Name);
-            cam = new VideoCaptureDevice(usbCams[0].MonikerString);
-            System.Diagnostics.Debug.WriteLine(cam);
-            cam.NewFrame += FinalFrame_NewFrame;
-            cam.Start();
 
+                if (Device.Name == camname)
+                {
+                    cam = new VideoCaptureDevice(Device.MonikerString);
+                    cam.NewFrame += FinalFrame_NewFrame;
+                    cam.Start();
+                }
+            }
+            
             this.button2.Enabled = false;
             this.button3.Enabled = false;
 
@@ -83,6 +92,8 @@ namespace WindowsFormsApp1
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);
             form3.TopMost = true;
             form3.Show();
+            serialPort1.PortName = comname;
+            serialPort1.Open();
             try
             {
                 serialPort1.Open();
@@ -92,7 +103,7 @@ namespace WindowsFormsApp1
             {
                 form3.Hide();
                 cam.Stop();
-                MessageBox.Show("No Serial port found, close application and try again.");
+                MessageBox.Show("Invalid Serial port found, close application and try again.");
                 System.Windows.Forms.Application.Exit();
 
             }
@@ -202,10 +213,12 @@ namespace WindowsFormsApp1
             if (first == 0)
             {
                 button3.BackgroundImage = Properties.Resources.stop;
-                string pathToNewFolder = System.IO.Path.Combine("g:\\Recordings_NHT", dept);
+                string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
+                System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
+
                 DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
                 DateTime today = DateTime.Today;
-                string mypath = System.IO.Path.Combine("g:\\Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
+                string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
                 String name = pathToNewFolder + "lot_" + lot+ today + ".avi";
                 filename = @mypath + lot + ".avi";
                 if (System.IO.File.Exists(filename))
@@ -294,34 +307,6 @@ namespace WindowsFormsApp1
                 //sp.DiscardOutBuffer();
             }
 
-            /*var charsToRemove = new string[] { "-"};
-            foreach (var c in charsToRemove)
-            {
-                bitString = bitString.Replace(c, string.Empty);
-            }
-            System.Diagnostics.Debug.WriteLine("String2: "+bitString);
-            //string s = "10C5EC9C6";
-            long n = Int64.Parse(bitString, System.Globalization.NumberStyles.HexNumber);
-            System.Diagnostics.Debug.WriteLine("String3: " + n);
-            decimal d = (decimal)Int64.Parse(bitString, System.Globalization.NumberStyles.HexNumber);
-            System.Diagnostics.Debug.WriteLine("String4: " + n);*/
-
-            /*   if(line.Count()>6 && line.Count()<15)
-               {
-                   if(line[0]=='*' && line[line.Count()-2] == '\'')
-                   {
-                       String t = line.Substring(1, line.Count()-3);
-                       System.Diagnostics.Debug.WriteLine("Formatted: "+t);
-                       SetText(t);
-                   }
-               }
-               if (line.Count() == 4)
-               {
-                   if(line[0]=='*' && line[2]=='\'' && line[3] == '\n')
-                   {
-                       SetText("Enable");
-                   }
-               }*/
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -348,32 +333,8 @@ namespace WindowsFormsApp1
                 {
                     double data = double.Parse(text);
                     System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
-                    /*double data = 0.0;
-                    int neg = 1;
-                    try
-                    {
-                        if(text[text.Count()-1] == '.')
-                        {
-                            text = text.Substring(0, text.Length - 1);
-                        }
-                        if(text[0]=='-')
-                        {
-                            text = text.Substring(1, text.Length - 1);
-                            neg = -1;
-                        }
-                        data = double.Parse(text);
-                        if(neg==-1)
-                        {
-                            data *= -1;
-                        }
-                        prev = data;
-                    }
-                    catch (System.FormatException)
-                    {
-                        data = prev;
-                    }*/
 
-                    if(data <= max_force)
+                    if(data>= min_force && data <= max_force)
                     {
                         String toSend = "";
                         String t = DateTime.Now.ToString();
@@ -402,10 +363,20 @@ namespace WindowsFormsApp1
                     }
                     else
                     {
-                        serialPort1.WriteLine("*CPF00\'");
-                        this.button2.BackgroundImage = Properties.Resources.resume;
-                        second = 1;
-                        MessageBox.Show("Force values exceeded max force, testing paused.");
+                        if(data>max_force)
+                        {
+                            serialPort1.WriteLine("*CPF00\'");
+                            this.button2.BackgroundImage = Properties.Resources.resume;
+                            second = 1;
+                            MessageBox.Show("Force values exceeded max insertion force, testing paused.");
+                        }
+                        else
+                        {
+                            serialPort1.WriteLine("*CPF00\'");
+                            this.button2.BackgroundImage = Properties.Resources.resume;
+                            second = 1;
+                            MessageBox.Show("Force values exceeded max retraction force, testing paused.");
+                        }
                     }
 
                 }
@@ -438,7 +409,7 @@ namespace WindowsFormsApp1
                                         CopyPixelOperation.SourceCopy);
             DateTime today = DateTime.Today;
             // Save the screenshot to the specified path that the user has chosen.
-            bmpScreenshot.Save("g:\\Recordings_NHT\\" + dept+"\\lot_"+count.ToString()+".png", ImageFormat.Png);
+            bmpScreenshot.Save(drive + "Recordings_NHT\\" + dept+"\\lot_"+count.ToString()+".png", ImageFormat.Png);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -449,21 +420,30 @@ namespace WindowsFormsApp1
         private void configButton(object sender, EventArgs e)
         {
             String maxF = form3.textBox2.Text;
+            String minF = form3.textBox5.Text;
             String position = form3.textBox1.Text;
             if (!String.IsNullOrEmpty(maxF))
             {
                 int temp = int.Parse(maxF);
                 max_force = temp;
             }
+            if (!String.IsNullOrEmpty(minF))
+            {
+                int temp = int.Parse(minF);
+                min_force = temp;
+            }
             if (!String.IsNullOrEmpty(position))
             {
                 int temp = int.Parse(position);
                 this.position = temp;
             }
+
             default_speed = form3.trackBar1.Value * 10;
             form3.Hide();
             String tosend = "";
-            if(default_speed==10)
+            //System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
+
+            if (default_speed==10)
             {
                 tosend = "*S40";
                 //serialPort1.WriteLine();
@@ -509,13 +489,16 @@ namespace WindowsFormsApp1
                 tosend = String.Concat(tosend, "P5\'");
                 serialPort1.WriteLine(tosend);
             }
-            System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed+ "     " + tosend);
+            System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed+ "     " + tosend + "  " + min_force + "     ");
 
         }
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            cam.Stop();
+            if(cam!=null)
+            {
+                cam.Stop();
+            }
             serialPort1.Close();
             System.Windows.Forms.Application.Exit();
         }
@@ -651,3 +634,56 @@ namespace WindowsFormsApp1
 //    {
 //    }
 //}
+/*double data = 0.0;
+int neg = 1;
+try
+{
+    if(text[text.Count()-1] == '.')
+    {
+        text = text.Substring(0, text.Length - 1);
+    }
+    if(text[0]=='-')
+    {
+        text = text.Substring(1, text.Length - 1);
+        neg = -1;
+    }
+    data = double.Parse(text);
+    if(neg==-1)
+    {
+        data *= -1;
+    }
+    prev = data;
+}
+catch (System.FormatException)
+{
+    data = prev;
+}*/
+
+/*var charsToRemove = new string[] { "-"};
+foreach (var c in charsToRemove)
+{
+    bitString = bitString.Replace(c, string.Empty);
+}
+System.Diagnostics.Debug.WriteLine("String2: "+bitString);
+//string s = "10C5EC9C6";
+long n = Int64.Parse(bitString, System.Globalization.NumberStyles.HexNumber);
+System.Diagnostics.Debug.WriteLine("String3: " + n);
+decimal d = (decimal)Int64.Parse(bitString, System.Globalization.NumberStyles.HexNumber);
+System.Diagnostics.Debug.WriteLine("String4: " + n);*/
+
+/*   if(line.Count()>6 && line.Count()<15)
+   {
+       if(line[0]=='*' && line[line.Count()-2] == '\'')
+       {
+           String t = line.Substring(1, line.Count()-3);
+           System.Diagnostics.Debug.WriteLine("Formatted: "+t);
+           SetText(t);
+       }
+   }
+   if (line.Count() == 4)
+   {
+       if(line[0]=='*' && line[2]=='\'' && line[3] == '\n')
+       {
+           SetText("Enable");
+       }
+   }*/
