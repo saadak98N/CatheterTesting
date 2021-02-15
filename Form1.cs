@@ -16,6 +16,7 @@ namespace WindowsFormsApp1
     {
         String drive;
         String resume;
+        int choice = 1;
         //force range
         int max_force;
         int min_force;
@@ -200,18 +201,17 @@ namespace WindowsFormsApp1
         {
             if (second == 0)
             {
+                this.button2.BackgroundImage = Properties.Resources.resume;
                 serialPort1.WriteLine("*CP000\'");
                 System.Diagnostics.Debug.WriteLine("Paused");
 
-                this.button2.BackgroundImage = Properties.Resources.resume;
                 second = 1;
             }
             else
             {
+                this.button2.BackgroundImage = Properties.Resources.pause;
                 serialPort1.WriteLine(resume);
                 System.Diagnostics.Debug.WriteLine("Resumed");
-
-                this.button2.BackgroundImage = Properties.Resources.pause;
                 second = 0;
             }
         }
@@ -260,8 +260,8 @@ namespace WindowsFormsApp1
                         timer1.Stop();
                         vf.Close();
                         first = 0;
-                        serialPort1.WriteLine("*CX000\'");
                         button3.BackgroundImage = Properties.Resources.play;
+                        serialPort1.WriteLine("*CX000\'");
                         this.button1.Enabled = true;
                         this.button3.Enabled = false;
                         this.button2.Enabled = false;
@@ -291,16 +291,18 @@ namespace WindowsFormsApp1
                 if(listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "31")
                 {
                     resume = "*CR000\'";
+                    choice = 1;
                     System.Diagnostics.Debug.WriteLine("RES: FWD");
 
                 }
-                if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "32")
+                else if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "32")
                 {
                     resume = "*CB000\'";
+                    choice = 0;
                     System.Diagnostics.Debug.WriteLine("RES: BWD");
 
                 }
-                if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
+                else if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
                 {
                     int decValue1 = int.Parse(listStrLineElements[1], System.Globalization.NumberStyles.HexNumber);
                     int decValue2 = int.Parse(listStrLineElements[2], System.Globalization.NumberStyles.HexNumber);
@@ -374,7 +376,14 @@ namespace WindowsFormsApp1
                         if (data > peak_force)
                         {
                             peak_force = data;
-                            this.textBox1.Text = peak_force.ToString();
+                            if(choice==1)
+                            {
+                                this.textBox1.Text = peak_force.ToString();
+                            }
+                            else
+                            {
+                                this.textBox4.Text = peak_force.ToString();
+                            }
                         }
 
                         this.chart1.ChartAreas[0].RecalculateAxesScale();
@@ -530,9 +539,14 @@ namespace WindowsFormsApp1
             switch (dr)
             {
                 case DialogResult.Yes:
-                    timer1.Stop();
-                    vf.Close();
-                    serialPort1.WriteLine("*CX000\'");
+                    try
+                    {
+                        serialPort1.WriteLine("*CX000\'");
+                    }
+                    catch(System.InvalidOperationException)
+                    {
+
+                    }
                     if (cam != null)
                     {
                         cam.Stop();
