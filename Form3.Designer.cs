@@ -156,9 +156,10 @@ namespace WindowsFormsApp1
             // 
             // textBox2
             // 
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.Location = new System.Drawing.Point(198, 198);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(226, 20);
+            this.textBox2.Size = new System.Drawing.Size(226, 24);
             this.textBox2.TabIndex = 12;
             // 
             // peak
@@ -182,9 +183,10 @@ namespace WindowsFormsApp1
             // 
             // textBox1
             // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(198, 122);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(111, 20);
+            this.textBox1.Size = new System.Drawing.Size(111, 24);
             this.textBox1.TabIndex = 23;
             // 
             // button2
@@ -238,9 +240,10 @@ namespace WindowsFormsApp1
             // 
             // textBox5
             // 
+            this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.Location = new System.Drawing.Point(198, 162);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(226, 20);
+            this.textBox5.Size = new System.Drawing.Size(226, 24);
             this.textBox5.TabIndex = 27;
             // 
             // label16
