@@ -520,12 +520,27 @@ namespace WindowsFormsApp1
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            if(cam!=null)
+            DialogResult dr = MessageBox.Show("Are you sure you want to close?",
+                      "Confirmation", MessageBoxButtons.YesNo);
+            switch (dr)
             {
-                cam.Stop();
+                case DialogResult.Yes:
+                    timer1.Stop();
+                    vf.Close();
+                    serialPort1.WriteLine("*CX000\'");
+                    if (cam != null)
+                    {
+                        cam.Stop();
+                    }
+                    serialPort1.Close();
+                    System.Windows.Forms.Application.Exit();
+                    break;
+
+                case DialogResult.No:
+                    e.Cancel = true;
+                    break;
             }
-            serialPort1.Close();
-            System.Windows.Forms.Application.Exit();
+            
         }
 
         void form3closed(object sender, EventArgs e)
