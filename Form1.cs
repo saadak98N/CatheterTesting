@@ -15,6 +15,7 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         String drive;
+        String resume;
         //force range
         int max_force;
         int min_force;
@@ -66,7 +67,8 @@ namespace WindowsFormsApp1
             position = 3;
             drive = drivename;
             
-            form3 = new Form3(default_speed, peak_force, max_force, position, min_force);
+            form3 = new Form3(default_speed, max_force, position, min_force);
+            form3.Closed += form3closed;
             form3.button2.Click += new EventHandler(configButton);
             usbCams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo Device in usbCams)
@@ -159,7 +161,14 @@ namespace WindowsFormsApp1
                 gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
                 pictureBox1.Image = bp;
                 pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
-                vf.WriteVideoFrame(bp);
+                try
+                {
+                    vf.WriteVideoFrame(bp);
+                }
+                catch (System.OutOfMemoryException)
+                {
+                    bp.Dispose();
+                }
                 gr.Dispose();
             }
             catch(System.ArgumentException)
@@ -199,7 +208,7 @@ namespace WindowsFormsApp1
             }
             else
             {
-                serialPort1.WriteLine("*CR000\'");
+                serialPort1.WriteLine(resume);
                 System.Diagnostics.Debug.WriteLine("Resumed");
 
                 this.button2.BackgroundImage = Properties.Resources.pause;
@@ -279,7 +288,19 @@ namespace WindowsFormsApp1
                 string bitString = BitConverter.ToString(bytes);
                 System.Diagnostics.Debug.WriteLine("String: " + bitString);
                 List<string> listStrLineElements = bitString.Split('-').ToList();
-                if(listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
+                if(listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "31")
+                {
+                    resume = "*CR000\'";
+                    System.Diagnostics.Debug.WriteLine("RES: FWD");
+
+                }
+                if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "32")
+                {
+                    resume = "*CB000\'";
+                    System.Diagnostics.Debug.WriteLine("RES: BWD");
+
+                }
+                if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
                 {
                     int decValue1 = int.Parse(listStrLineElements[1], System.Globalization.NumberStyles.HexNumber);
                     int decValue2 = int.Parse(listStrLineElements[2], System.Globalization.NumberStyles.HexNumber);
@@ -309,7 +330,6 @@ namespace WindowsFormsApp1
 
                 System.Diagnostics.Debug.WriteLine("THE END!");
                 sp.DiscardInBuffer();
-                //sp.DiscardOutBuffer();
             }
 
         }
@@ -424,7 +444,7 @@ namespace WindowsFormsApp1
 
         private void configButton(object sender, EventArgs e)
         {
-            String maxF = form3.textBox2.Text;
+            /*String maxF = form3.textBox2.Text;
             String minF = form3.textBox5.Text;
             String position = form3.textBox1.Text;
             if (!String.IsNullOrEmpty(maxF))
@@ -495,7 +515,7 @@ namespace WindowsFormsApp1
                 serialPort1.WriteLine(tosend);
             }
             System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed+ "     " + tosend + "  " + min_force + "     ");
-
+*/
         }
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
@@ -506,6 +526,87 @@ namespace WindowsFormsApp1
             }
             serialPort1.Close();
             System.Windows.Forms.Application.Exit();
+        }
+
+        void form3closed(object sender, EventArgs e)
+        {
+            String maxF = form3.textBox2.Text;
+            String minF = form3.textBox5.Text;
+            String position = form3.textBox1.Text;
+            if (!String.IsNullOrEmpty(maxF))
+            {
+                int temp = int.Parse(maxF);
+                max_force = temp;
+            }
+            if (!String.IsNullOrEmpty(minF))
+            {
+                int temp = int.Parse(minF);
+                min_force = temp;
+            }
+            if (!String.IsNullOrEmpty(position))
+            {
+                int temp = int.Parse(position);
+                this.position = temp;
+            }
+
+            default_speed = form3.trackBar1.Value * 10;
+            form3.Hide();
+            String tosend = "";
+            //System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
+
+            if (default_speed == 10)
+            {
+                tosend = "*S40";
+                //serialPort1.WriteLine();
+            }
+            else if (default_speed == 20)
+            {
+                tosend = "*S30";
+                //serialPort1.WriteLine("*S30\'");
+            }
+            else if (default_speed == 30)
+            {
+                tosend = "*S20";
+                //serialPort1.WriteLine("*S20\'");
+            }
+            else if (default_speed == 40)
+            {
+                tosend = "*S13";
+                //serialPort1.WriteLine("*S13\'");
+            }
+            else if (default_speed == 50)
+            {
+                tosend = "*S10";
+                //serialPort1.WriteLine("*S10\'");
+            }
+
+            if (this.position == 1)
+            {
+                tosend = String.Concat(tosend, "P1\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 2)
+            {
+                tosend = String.Concat(tosend, "P2\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 3)
+            {
+                tosend = String.Concat(tosend, "P3\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 4)
+            {
+                tosend = String.Concat(tosend, "P4\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 5)
+            {
+                tosend = String.Concat(tosend, "P5\'");
+                serialPort1.WriteLine(tosend);
+            }
+            System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
+
         }
     }
 }
