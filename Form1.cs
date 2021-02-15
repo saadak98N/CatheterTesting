@@ -235,6 +235,11 @@ namespace WindowsFormsApp1
                 timer1.Start();
                 serialPort1.WriteLine("*CS000\'");
                 first = 1;
+                chart1.Series["Force vs Time"].Points.Clear();
+                this.chart1.ChartAreas[0].AxisX.Minimum = 0;
+                this.chart1.ChartAreas[0].AxisX.Maximum = 15;
+                count = 0;
+                this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
             }
             else
             {
@@ -252,9 +257,6 @@ namespace WindowsFormsApp1
                         this.button3.Enabled = false;
                         this.button2.Enabled = false;
                         this.button5.Enabled = true;
-                        chart1.Series["Force vs Time"].Points.Clear();
-                        count = 0;
-                        this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
 
                         break;
 
