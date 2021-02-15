@@ -444,7 +444,7 @@ namespace WindowsFormsApp1
 
         private void configButton(object sender, EventArgs e)
         {
-            /*String maxF = form3.textBox2.Text;
+            String maxF = form3.textBox2.Text;
             String minF = form3.textBox5.Text;
             String position = form3.textBox1.Text;
             if (!String.IsNullOrEmpty(maxF))
@@ -468,23 +468,27 @@ namespace WindowsFormsApp1
             String tosend = "";
             //System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
 
-            if (default_speed==10)
+            if (default_speed == 10)
             {
                 tosend = "*S40";
                 //serialPort1.WriteLine();
-            }else if (default_speed == 20)
+            }
+            else if (default_speed == 20)
             {
                 tosend = "*S30";
                 //serialPort1.WriteLine("*S30\'");
-            } else if(default_speed == 30)
+            }
+            else if (default_speed == 30)
             {
                 tosend = "*S20";
                 //serialPort1.WriteLine("*S20\'");
-            } else if(default_speed == 40)
+            }
+            else if (default_speed == 40)
             {
                 tosend = "*S13";
                 //serialPort1.WriteLine("*S13\'");
-            } else if(default_speed == 50)
+            }
+            else if (default_speed == 50)
             {
                 tosend = "*S10";
                 //serialPort1.WriteLine("*S10\'");
@@ -494,7 +498,8 @@ namespace WindowsFormsApp1
             {
                 tosend = String.Concat(tosend, "P1\'");
                 serialPort1.WriteLine(tosend);
-            }else if(this.position == 2)
+            }
+            else if (this.position == 2)
             {
                 tosend = String.Concat(tosend, "P2\'");
                 serialPort1.WriteLine(tosend);
@@ -514,8 +519,8 @@ namespace WindowsFormsApp1
                 tosend = String.Concat(tosend, "P5\'");
                 serialPort1.WriteLine(tosend);
             }
-            System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed+ "     " + tosend + "  " + min_force + "     ");
-*/
+            System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
+
         }
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
