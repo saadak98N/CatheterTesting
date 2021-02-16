@@ -73,8 +73,9 @@ namespace WindowsFormsApp1
             ht = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
             wt = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
             this.chart1.Width = wt/2;
-            double x= (ht / 5)*3.5;
+            double x= (ht / 5)*3.2;
             s = (int)x;
+            System.Diagnostics.Debug.WriteLine(wt + "ABC" + ht + "DEF"+s);
             pictureBox2.Height = s;
             pictureBox2.Width = wt / 2;
             this.chart1.Height = s;
@@ -133,10 +134,11 @@ namespace WindowsFormsApp1
             button3.Width = wt / 14;
             button4.Height = ht / 9;
             button4.Width = wt / 14;
-            button1.Location = new Point(button5.Width+5, s);
-            button3.Location = new Point(button1.Location.X+button1.Width + 10, s);
-            button2.Location = new Point(button3.Location.X+button3.Width + 10, s);
-            button4.Location = new Point(button2.Location.X+button2.Width + 10, s);
+            button1.Location = new Point(button5.Width+5, chart1.Height + 5);
+            button3.Location = new Point(button1.Location.X+button1.Width + 10, chart1.Height + 5);
+            button2.Location = new Point(button3.Location.X+button3.Width + 10, chart1.Height + 5);
+            button4.Location = new Point(button2.Location.X+button2.Width + 10, chart1.Height + 5);
+            label4.Location = new Point(chart1.Width / 2, chart1.Height - 5);
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
