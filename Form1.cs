@@ -16,6 +16,8 @@ namespace WindowsFormsApp1
     {
         String drive;
         int ht;
+        int wt;
+        int s;
         String resume = "*CF000\'";
         int choice = 1;
         //force range
@@ -69,10 +71,10 @@ namespace WindowsFormsApp1
             position = 3;
             drive = drivename;
             ht = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
-            int wt = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+            wt = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
             this.chart1.Width = wt/2;
-            double x= (ht / 5)*3.2;
-            int s = (int)x;
+            double x= (ht / 5)*3.5;
+            s = (int)x;
             pictureBox2.Height = s;
             pictureBox2.Width = wt / 2;
             this.chart1.Height = s;
@@ -92,10 +94,7 @@ namespace WindowsFormsApp1
                     cam.Start();
                 }
             }
-            /*cam = new VideoCaptureDevice(usbCams[0].MonikerString);
-            cam.NewFrame += FinalFrame_NewFrame;
-            cam.Start();
-*/
+
             this.button2.Enabled = false;
             this.button3.Enabled = false;
 
@@ -121,9 +120,23 @@ namespace WindowsFormsApp1
                 System.Windows.Forms.Application.Exit();
 
             }
+            sizeThings();
         }
 
-
+        private void sizeThings()
+        {
+            button1.Height = ht / 9;
+            button1.Width = wt / 14;
+            button2.Height = ht / 9;
+            button2.Width = wt / 14;
+            button3.Height = ht / 9;
+            button3.Width = wt / 14;
+            button4.Height = ht / 9;
+            button4.Width = wt / 14;
+            label4.Location = new Point((wt/2)/2, s);
+            groupBox1.Width = wt / 4;
+            groupBox1.Height = ht / 4;
+        }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
