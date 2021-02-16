@@ -15,6 +15,7 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         String drive;
+        int ht;
         String resume = "*CF000\'";
         int choice = 1;
         //force range
@@ -67,7 +68,8 @@ namespace WindowsFormsApp1
             default_speed = 10;
             position = 3;
             drive = drivename;
-            
+            ht = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
+            pictureBox2.Height = ht / 2;
             form3 = new Form3(default_speed, max_force, position, min_force);
             form3.Closed += form3closed;
             form3.button2.Click += new EventHandler(configButton);
