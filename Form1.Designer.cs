@@ -68,21 +68,21 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(5, 481);
+            this.label1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(576, 507);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 14);
+            this.label1.Size = new System.Drawing.Size(170, 18);
             this.label1.TabIndex = 3;
             this.label1.Text = "Insertion Max Force:";
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(134, 477);
+            this.textBox1.Location = new System.Drawing.Point(779, 506);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(153, 21);
@@ -152,7 +152,7 @@
             "BALLOON CATH",
             "DIAGNOSTIC CATH",
             "OTHER"});
-            this.comboBox1.Location = new System.Drawing.Point(149, 56);
+            this.comboBox1.Location = new System.Drawing.Point(161, 63);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(157, 23);
             this.comboBox1.TabIndex = 10;
@@ -163,7 +163,7 @@
             // 
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(149, 19);
+            this.textBox3.Location = new System.Drawing.Point(161, 26);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(157, 21);
             this.textBox3.TabIndex = 11;
@@ -172,10 +172,10 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(64, 29);
+            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(7, 29);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 14);
+            this.label5.Size = new System.Drawing.Size(76, 18);
             this.label5.TabIndex = 12;
             this.label5.Text = "LOT No :";
             // 
@@ -183,10 +183,11 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Red;
-            this.label6.Location = new System.Drawing.Point(83, 121);
+            this.label6.Location = new System.Drawing.Point(128, 128);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(205, 18);
+            this.label6.Size = new System.Drawing.Size(220, 20);
             this.label6.TabIndex = 13;
             this.label6.Text = "Enter Missing Information!";
             this.label6.Visible = false;
@@ -234,7 +235,7 @@
             this.button4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.Location = new System.Drawing.Point(606, 520);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(70, 70);
+            this.button4.Size = new System.Drawing.Size(100, 70);
             this.button4.TabIndex = 14;
             this.tooltip.SetToolTip(this.button4, "Screenshot");
             this.button4.UseVisualStyleBackColor = false;
@@ -250,7 +251,7 @@
             this.button3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.Location = new System.Drawing.Point(189, 517);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(70, 70);
+            this.button3.Size = new System.Drawing.Size(100, 70);
             this.button3.TabIndex = 2;
             this.tooltip.SetToolTip(this.button3, "Start/Stop");
             this.button3.UseVisualStyleBackColor = false;
@@ -266,7 +267,7 @@
             this.button2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(391, 517);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 70);
+            this.button2.Size = new System.Drawing.Size(100, 70);
             this.button2.TabIndex = 1;
             this.tooltip.SetToolTip(this.button2, "Pause/Resume");
             this.button2.UseVisualStyleBackColor = false;
@@ -282,7 +283,7 @@
             this.button1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(9, 517);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(70, 70);
+            this.button1.Size = new System.Drawing.Size(100, 70);
             this.button1.TabIndex = 0;
             this.tooltip.SetToolTip(this.button1, "Home");
             this.button1.UseVisualStyleBackColor = false;
@@ -300,10 +301,10 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(1004, 485);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(949, 477);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(312, 149);
+            this.groupBox1.Size = new System.Drawing.Size(367, 157);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "User Information";
@@ -312,10 +313,10 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(63, 65);
+            this.label7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(6, 65);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(80, 14);
+            this.label7.Size = new System.Drawing.Size(108, 18);
             this.label7.TabIndex = 26;
             this.label7.Text = "Department:";
             // 
@@ -323,7 +324,7 @@
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(149, 94);
+            this.textBox2.Location = new System.Drawing.Point(161, 101);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(157, 21);
             this.textBox2.TabIndex = 25;
@@ -332,10 +333,10 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(64, 101);
+            this.label8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(7, 101);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(71, 14);
+            this.label8.Size = new System.Drawing.Size(94, 18);
             this.label8.TabIndex = 14;
             this.label8.Text = "Item Code:";
             // 
@@ -364,10 +365,10 @@
             // 
             // textBox4
             // 
-            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox4.BackColor = System.Drawing.Color.White;
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(455, 477);
+            this.textBox4.Location = new System.Drawing.Point(779, 544);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(153, 21);
@@ -376,12 +377,12 @@
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(317, 482);
+            this.label9.Font = new System.Drawing.Font("Arial Rounded MT Bold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(576, 545);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(133, 14);
+            this.label9.Size = new System.Drawing.Size(184, 18);
             this.label9.TabIndex = 25;
             this.label9.Text = "Retraction Max Force:";
             // 
