@@ -66,12 +66,13 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             max_force = 1000;
+            this.WindowState = FormWindowState.Maximized;
             min_force = -1000;
             default_speed = 10;
             position = 3;
             drive = drivename;
-            ht = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
-            wt = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+            ht = Screen.PrimaryScreen.Bounds.Height; 
+            wt = Screen.PrimaryScreen.Bounds.Width;
             this.chart1.Width = wt/2;
             double x= (ht / 5)*3.2;
             s = (int)x;
@@ -134,10 +135,11 @@ namespace WindowsFormsApp1
             button3.Width = wt / 14;
             button4.Height = ht / 9;
             button4.Width = wt / 14;
-            button1.Location = new Point(button5.Width+5, chart1.Height + 5);
-            button3.Location = new Point(button1.Location.X+button1.Width + 10, chart1.Height + 5);
-            button2.Location = new Point(button3.Location.X+button3.Width + 10, chart1.Height + 5);
-            button4.Location = new Point(button2.Location.X+button2.Width + 10, chart1.Height + 5);
+            System.Diagnostics.Debug.WriteLine(ht/2);
+            button1.Location = new Point(((((wt/2)/2)/2)/2), (ht/2)+10);
+            button3.Location = new Point(button1.Location.X+button1.Width + 20, (ht / 2) + 10);
+            button2.Location = new Point(button3.Location.X+button3.Width + 20, (ht / 2) + 10);
+            button4.Location = new Point(button2.Location.X+button2.Width + 20, (ht / 2) + 10);
             label4.Location = new Point(chart1.Width / 2, chart1.Height - 5);
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
