@@ -219,6 +219,8 @@ namespace WindowsFormsApp1
                 this.button1.Enabled = false;
                 this.button3.Enabled = true;
                 this.button2.Enabled = false;
+                this.textBox3.Enabled = false;
+                this.comboBox1.Enabled = false;
             }
             else
             {
@@ -228,6 +230,7 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
+            SuspendLayout();
             if (second == 0)
             {
                 this.button2.BackgroundImage = Properties.Resources.resume;
@@ -243,18 +246,21 @@ namespace WindowsFormsApp1
                 System.Diagnostics.Debug.WriteLine("Resumed");
                 second = 0;
             }
+            ResumeLayout(performLayout: true);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (first == 0)
             {
+                SuspendLayout();
                 button3.BackgroundImage = Properties.Resources.stop;
                 button3.BackColor = Color.LightCoral;
                 button3.FlatAppearance.MouseOverBackColor = Color.Red;
                 button3.FlatAppearance.MouseDownBackColor = Color.Red;
 
                 this.button5.Enabled = false;
+                ResumeLayout(performLayout: true);
                 string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
                 System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
 
@@ -286,8 +292,8 @@ namespace WindowsFormsApp1
             }
             else
             {
-                DialogResult dr = MessageBox.Show("Stopping will end and save the recording, proceed?",
-                      "Confirmation", MessageBoxButtons.YesNo);
+                DialogResult dr = MessageBox.Show(new Form { TopMost = true }, "Stopping will end and save the recording, proceed?",
+                    "Confirmation", MessageBoxButtons.YesNo); ;
                 switch (dr)
                 {
                     case DialogResult.Yes:
@@ -304,12 +310,15 @@ namespace WindowsFormsApp1
                         this.button3.Enabled = false;
                         this.button2.Enabled = false;
                         this.button5.Enabled = true;
+                        this.textBox3.Enabled = true;
+                        this.comboBox1.Enabled = true;
 
                         break;
 
                     case DialogResult.No:
-                        break;
+                      break;
                 }
+                ResumeLayout(performLayout: true);
             }
         }
 
@@ -411,10 +420,12 @@ namespace WindowsFormsApp1
                         {
                             writer.Write(toSend);
                         }
+                
                         if (data > peak_force)
                         {
+                            SuspendLayout();
                             peak_force = data;
-                            if(choice==1)
+                            if (choice == 1)
                             {
                                 this.textBox1.Text = peak_force.ToString();
                             }
@@ -422,6 +433,7 @@ namespace WindowsFormsApp1
                             {
                                 this.textBox4.Text = peak_force.ToString();
                             }
+                            ResumeLayout(performLayout: true);
                         }
 
                         this.chart1.ChartAreas[0].RecalculateAxesScale();
