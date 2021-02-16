@@ -15,7 +15,7 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         String drive;
-        String resume;
+        String resume = "*CF000\'";
         int choice = 1;
         //force range
         int max_force;
@@ -189,7 +189,6 @@ namespace WindowsFormsApp1
                 this.button1.Enabled = false;
                 this.button3.Enabled = true;
                 this.button2.Enabled = false;
-                this.button5.Enabled = false;
             }
             else
             {
@@ -221,6 +220,7 @@ namespace WindowsFormsApp1
             if (first == 0)
             {
                 button3.BackgroundImage = Properties.Resources.stop;
+                this.button5.Enabled = false;
                 string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
                 System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
 
@@ -242,7 +242,7 @@ namespace WindowsFormsApp1
                 if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
                 vf.Open(filename, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, 25, VideoCodec.MPEG4, 1000000);
                 timer1.Start();
-                serialPort1.WriteLine("*CS000\'");
+                serialPort1.WriteLine(resume);
                 first = 1;
                 chart1.Series["Force vs Time"].Points.Clear();
                 this.chart1.ChartAreas[0].AxisX.Minimum = 0;
@@ -261,7 +261,7 @@ namespace WindowsFormsApp1
                         vf.Close();
                         first = 0;
                         button3.BackgroundImage = Properties.Resources.play;
-                        serialPort1.WriteLine("*CX000\'");
+                        serialPort1.WriteLine("*CP000\'");
                         this.button1.Enabled = true;
                         this.button3.Enabled = false;
                         this.button2.Enabled = false;
@@ -290,7 +290,7 @@ namespace WindowsFormsApp1
                 List<string> listStrLineElements = bitString.Split('-').ToList();
                 if(listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "31")
                 {
-                    resume = "*CR000\'";
+                    resume = "*CF000\'";
                     choice = 1;
                     System.Diagnostics.Debug.WriteLine("RES: FWD");
 
@@ -317,7 +317,7 @@ namespace WindowsFormsApp1
                     double toSend = ((100 * decValue2) + (10 * decValue3) + (decValue4) + (decValue5 * 0.1))*neg;
                     System.Diagnostics.Debug.WriteLine("Force: " + toSend.ToString());
                     int times = bytesToRead / 7;
-                    System.Diagnostics.Debug.WriteLine("TImes " + times);
+                    System.Diagnostics.Debug.WriteLine("Times " + times);
                     if (times < 5)
                     {
                         while (times >= 1)
