@@ -133,9 +133,6 @@ namespace WindowsFormsApp1
             button3.Width = wt / 14;
             button4.Height = ht / 9;
             button4.Width = wt / 14;
-            label4.Location = new Point((wt/2)/2, s);
-            groupBox1.Width = wt / 4;
-            groupBox1.Height = ht / 4;
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
