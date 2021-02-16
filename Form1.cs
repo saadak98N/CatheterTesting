@@ -133,6 +133,10 @@ namespace WindowsFormsApp1
             button3.Width = wt / 14;
             button4.Height = ht / 9;
             button4.Width = wt / 14;
+            button1.Location = new Point(button5.Width+5, s);
+            button3.Location = new Point(button1.Location.X+button1.Width + 10, s);
+            button2.Location = new Point(button3.Location.X+button3.Width + 10, s);
+            button4.Location = new Point(button2.Location.X+button2.Width + 10, s);
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
