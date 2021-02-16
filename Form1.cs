@@ -250,6 +250,10 @@ namespace WindowsFormsApp1
             if (first == 0)
             {
                 button3.BackgroundImage = Properties.Resources.stop;
+                button3.BackColor = Color.LightCoral;
+                button3.FlatAppearance.MouseOverBackColor = Color.Red;
+                button3.FlatAppearance.MouseDownBackColor = Color.Red;
+
                 this.button5.Enabled = false;
                 string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
                 System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
@@ -291,6 +295,10 @@ namespace WindowsFormsApp1
                         vf.Close();
                         first = 0;
                         button3.BackgroundImage = Properties.Resources.play;
+                        button3.BackColor = Color.LightGreen;
+                        button3.FlatAppearance.MouseOverBackColor = Color.Green;
+                        button3.FlatAppearance.MouseDownBackColor = Color.Green;
+
                         serialPort1.WriteLine("*CP000\'");
                         this.button1.Enabled = true;
                         this.button3.Enabled = false;
