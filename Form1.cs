@@ -69,7 +69,14 @@ namespace WindowsFormsApp1
             position = 3;
             drive = drivename;
             ht = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
-            pictureBox2.Height = ht / 2;
+            int wt = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+            this.chart1.Width = wt/2;
+            double x= (ht / 5)*3.2;
+            int s = (int)x;
+            pictureBox2.Height = s;
+            pictureBox2.Width = wt / 2;
+            this.chart1.Height = s;
+            pictureBox2.Location = new Point(wt/2, 0);
             form3 = new Form3(default_speed, max_force, position, min_force);
             form3.Closed += form3closed;
             form3.button2.Click += new EventHandler(configButton);
@@ -85,7 +92,10 @@ namespace WindowsFormsApp1
                     cam.Start();
                 }
             }
-            
+            /*cam = new VideoCaptureDevice(usbCams[0].MonikerString);
+            cam.NewFrame += FinalFrame_NewFrame;
+            cam.Start();
+*/
             this.button2.Enabled = false;
             this.button3.Enabled = false;
 
