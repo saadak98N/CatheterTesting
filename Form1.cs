@@ -18,6 +18,7 @@ namespace WindowsFormsApp1
         int ht;
         int wt;
         int s;
+        int a = 0;
         String resume = "*CF000\'";
         int choice = 1;
         //force range
@@ -173,11 +174,26 @@ namespace WindowsFormsApp1
                 }
                 catch (System.InvalidOperationException)
                 {
+                    if(g!=null)
+                    {
+                        g.Dispose();
+                    }
+                    if(bmp!=null)
+                    {
+                        bmp.Dispose();
+                    }
                 }
             }
             catch(System.OutOfMemoryException)
             {
-
+                if(bmp!=null)
+                {
+                    bmp.Dispose();
+                }
+                if(g!=null)
+                {
+                    g.Dispose();
+                }
             }
             
         }
@@ -198,7 +214,10 @@ namespace WindowsFormsApp1
                 }
                 catch (System.OutOfMemoryException)
                 {
-                    bp.Dispose();
+                    if(bp!=null)
+                    {
+                        bp.Dispose();
+                    }
                 }
                 gr.Dispose();
             }
@@ -231,22 +250,28 @@ namespace WindowsFormsApp1
         private void button2_Click(object sender, EventArgs e)
         {
             SuspendLayout();
-            if (second == 0)
+            try
             {
-                this.button2.BackgroundImage = Properties.Resources.resume;
-                serialPort1.WriteLine("*CP000\'");
-                System.Diagnostics.Debug.WriteLine("Paused");
+                if (second == 0)
+                {
+                    this.button2.BackgroundImage = Properties.Resources.resume;
+                    serialPort1.WriteLine("*CP000\'");
+                    System.Diagnostics.Debug.WriteLine("Paused");
 
-                second = 1;
+                    second = 1;
+                }
+                else
+                {
+                    this.button2.BackgroundImage = Properties.Resources.pause;
+                    serialPort1.WriteLine(resume);
+                    System.Diagnostics.Debug.WriteLine("Resumed");
+                    second = 0;
+                }
             }
-            else
+            finally
             {
-                this.button2.BackgroundImage = Properties.Resources.pause;
-                serialPort1.WriteLine(resume);
-                System.Diagnostics.Debug.WriteLine("Resumed");
-                second = 0;
+                ResumeLayout(performLayout: true);
             }
-            ResumeLayout(performLayout: true);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -254,13 +279,19 @@ namespace WindowsFormsApp1
             if (first == 0)
             {
                 SuspendLayout();
-                button3.BackgroundImage = Properties.Resources.stop;
-                button3.BackColor = Color.LightCoral;
-                button3.FlatAppearance.MouseOverBackColor = Color.Red;
-                button3.FlatAppearance.MouseDownBackColor = Color.Red;
+                try
+                {
+                    button3.BackgroundImage = Properties.Resources.stop;
+                    button3.BackColor = Color.LightCoral;
+                    button3.FlatAppearance.MouseOverBackColor = Color.Red;
+                    button3.FlatAppearance.MouseDownBackColor = Color.Red;
+                    this.button5.Enabled = false;
+                }
+                finally
+                {
+                    ResumeLayout(performLayout: true);
+                }
 
-                this.button5.Enabled = false;
-                ResumeLayout(performLayout: true);
                 string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
                 System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
 
@@ -293,33 +324,41 @@ namespace WindowsFormsApp1
             else
             {
                 //DialogResult dr = MessageBox.Show("Stopping will end and save the recording, proceed ?", "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
-                DialogResult dr = MessageBox.Show(new Form { TopMost = true }, "Stopping will end and save the recording, proceed?",
-                    "Confirmation", MessageBoxButtons.YesNo);
-                switch (dr)
+                DialogResult dr;
+                SuspendLayout();
+                try
                 {
-                    case DialogResult.Yes:
-                        timer1.Stop();
-                        vf.Close();
-                        first = 0;
-                        button3.BackgroundImage = Properties.Resources.play;
-                        button3.BackColor = Color.LightGreen;
-                        button3.FlatAppearance.MouseOverBackColor = Color.Green;
-                        button3.FlatAppearance.MouseDownBackColor = Color.Green;
-
-                        serialPort1.WriteLine("*CP000\'");
-                        this.button1.Enabled = true;
-                        this.button3.Enabled = false;
-                        this.button2.Enabled = false;
-                        this.button5.Enabled = true;
-                        this.textBox3.Enabled = true;
-                        this.comboBox1.Enabled = true;
-
-                        break;
-
-                    case DialogResult.No:
-                      break;
+                    dr = MessageBox.Show(new Form { TopMost = true }, "Stopping will end and save the recording, proceed?",
+                    "Confirmation", MessageBoxButtons.YesNo);
                 }
-                ResumeLayout(performLayout: true);
+                finally
+                {
+                    ResumeLayout(performLayout: true);
+                }
+                switch (dr)
+                    {
+                        case DialogResult.Yes:
+                            timer1.Stop();
+                            vf.Close();
+                            first = 0;
+                            button3.BackgroundImage = Properties.Resources.play;
+                            button3.BackColor = Color.LightGreen;
+                            button3.FlatAppearance.MouseOverBackColor = Color.Green;
+                            button3.FlatAppearance.MouseDownBackColor = Color.Green;
+
+                            serialPort1.WriteLine("*CP000\'");
+                            this.button1.Enabled = true;
+                            this.button3.Enabled = false;
+                            this.button2.Enabled = false;
+                            this.button5.Enabled = true;
+                            this.textBox3.Enabled = true;
+                            this.comboBox1.Enabled = true;
+
+                            break;
+
+                        case DialogResult.No:
+                            break;
+                    }
             }
         }
 
@@ -585,32 +624,36 @@ namespace WindowsFormsApp1
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            DialogResult dr = MessageBox.Show("Are you sure you want to close?",
-                      "Confirmation", MessageBoxButtons.YesNo);
-            switch (dr)
+            if(a==0)
             {
-                case DialogResult.Yes:
-                    try
-                    {
-                        serialPort1.WriteLine("*CX000\'");
-                    }
-                    catch(System.InvalidOperationException)
-                    {
+                DialogResult dr = MessageBox.Show("Are you sure you want to close?",
+                      "Confirmation", MessageBoxButtons.YesNo);
+                switch (dr)
+                {
+                    case DialogResult.Yes:
+                        a = 1;
+                        try
+                        {
+                            serialPort1.WriteLine("*CX000\'");
+                        }
+                        catch (System.InvalidOperationException)
+                        {
 
-                    }
-                    if (cam != null)
-                    {
-                        cam.Stop();
-                    }
-                    serialPort1.Close();
-                    System.Windows.Forms.Application.Exit();
-                    break;
+                        }
+                        if (cam != null)
+                        {
+                            cam.Stop();
+                        }
+                        serialPort1.Close();
+                        System.Windows.Forms.Application.Exit();
+                        break;
 
-                case DialogResult.No:
-                    e.Cancel = true;
-                    break;
+                    case DialogResult.No:
+                        a = 0;
+                        e.Cancel = true;
+                        break;
+                }
             }
-            
         }
 
         void form3closed(object sender, EventArgs e)
