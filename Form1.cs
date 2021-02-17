@@ -292,8 +292,9 @@ namespace WindowsFormsApp1
             }
             else
             {
+                //DialogResult dr = MessageBox.Show("Stopping will end and save the recording, proceed ?", "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 DialogResult dr = MessageBox.Show(new Form { TopMost = true }, "Stopping will end and save the recording, proceed?",
-                    "Confirmation", MessageBoxButtons.YesNo); ;
+                    "Confirmation", MessageBoxButtons.YesNo);
                 switch (dr)
                 {
                     case DialogResult.Yes:
