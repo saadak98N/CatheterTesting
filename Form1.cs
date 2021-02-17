@@ -145,6 +145,10 @@ namespace WindowsFormsApp1
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
+            if(pictureBox2.Image!=null)
+            {
+                pictureBox2.Image.Dispose();
+            }
             Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
             bool source_is_wider = (float)bmp.Width / bmp.Height > (float)pictureBox2.Width / pictureBox2.Height;
             var resized = new Bitmap(pictureBox2.Width, pictureBox2.Height);
@@ -203,6 +207,10 @@ namespace WindowsFormsApp1
         {
             try
             {
+                if(pictureBox1.Image!=null)
+                {
+                    pictureBox1.Image.Dispose();
+                }
                 bp = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
                 gr = Graphics.FromImage(bp);
                 gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
