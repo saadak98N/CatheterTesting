@@ -257,28 +257,36 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SuspendLayout();
-            try
+            if (second == 0)
             {
-                if (second == 0)
+                SuspendLayout();
+                try
                 {
                     this.button2.BackgroundImage = Properties.Resources.resume;
-                    serialPort1.WriteLine("*CP000\'");
-                    System.Diagnostics.Debug.WriteLine("Paused");
-
-                    second = 1;
                 }
-                else
+                finally
+                {
+                    ResumeLayout(performLayout: true);
+                }
+                serialPort1.WriteLine("*CP000\'");
+                System.Diagnostics.Debug.WriteLine("Paused");
+
+                second = 1;
+            }
+            else
+            {
+                SuspendLayout();
+                try
                 {
                     this.button2.BackgroundImage = Properties.Resources.pause;
-                    serialPort1.WriteLine(resume);
-                    System.Diagnostics.Debug.WriteLine("Resumed");
-                    second = 0;
                 }
-            }
-            finally
-            {
-                ResumeLayout(performLayout: true);
+                finally
+                {
+                    ResumeLayout(performLayout: true);
+                }
+                serialPort1.WriteLine(resume);
+                System.Diagnostics.Debug.WriteLine("Resumed");
+                second = 0;
             }
         }
 
@@ -331,7 +339,6 @@ namespace WindowsFormsApp1
             }
             else
             {
-                //DialogResult dr = MessageBox.Show("Stopping will end and save the recording, proceed ?", "Confirmation",MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 DialogResult dr;
                 SuspendLayout();
                 try
@@ -376,7 +383,6 @@ namespace WindowsFormsApp1
             int bytesToRead = sp.BytesToRead;
             var bytes = new byte[7];
             sp.Read(bytes, 0, 7);
-            //sbyte line = sp.ReadExisting();
             if (bytesToRead%7 == 0)
             {
                 System.Diagnostics.Debug.WriteLine("Recv: " + bytes + " " + bytesToRead);
@@ -417,22 +423,83 @@ namespace WindowsFormsApp1
                     {
                         while (times >= 1)
                         {
-                            SetText(toSend.ToString());
+                            SetGraph(toSend.ToString());
                             times--;
                         }
                     }
-                    SetText(toSend.ToString());
-
+                    SetGraph(toSend.ToString());
                 }
-
                 System.Diagnostics.Debug.WriteLine("THE END!");
                 sp.DiscardInBuffer();
             }
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void SetGraph(string text)
         {
+            double data = double.Parse(text);
+            System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
+
+            if (data >= min_force && data <= max_force)
+            {
+                String toSend = "";
+                String t = DateTime.Now.ToString();
+                toSend = String.Concat(t, ",");
+                toSend = String.Concat(toSend, data.ToString());
+                toSend = String.Concat(toSend, "\n");
+                writer = new StreamWriter(textName, true);
+                using (writer)
+                {
+                    writer.Write(toSend);
+                }
+
+                if (data > peak_force)
+                {
+                    peak_force = data;
+                    SetText(data.ToString());
+                }
+
+                this.chart1.ChartAreas[0].RecalculateAxesScale();
+                this.chart1.Series["Force vs Time"].Points.AddXY(count, data);
+                if (count > 14)
+                {
+                    this.chart1.ChartAreas[0].AxisX.Minimum += 1;
+                    this.chart1.ChartAreas[0].AxisX.Maximum += 1;
+                }
+                count++;
+            }
+            else
+            {
+                if (data > max_force)
+                {
+                    serialPort1.WriteLine("*CPF00\'");
+                    try
+                    {
+                        this.button2.BackgroundImage = Properties.Resources.resume;
+                    }
+                    finally
+                    {
+                        ResumeLayout(performLayout: true);
+                    }
+                    second = 1;
+                    MessageBox.Show("Force values exceeded max insertion force, testing paused.");
+                }
+                else
+                {
+                    serialPort1.WriteLine("*CPF00\'");
+                    SuspendLayout();
+                    try
+                    {
+                        this.button2.BackgroundImage = Properties.Resources.resume;
+                    }
+                    finally
+                    {
+                        ResumeLayout(performLayout: true);
+                    }
+                    second = 1;
+                    MessageBox.Show("Force values exceeded max retraction force, testing paused.");
+                }
+            }
         }
 
         private delegate void SetTextCallback(string text);
@@ -446,71 +513,14 @@ namespace WindowsFormsApp1
             }
             else
             {
-                if (text == "Enable")
+                double data = double.Parse(text);
+                if (choice == 1)
                 {
-                    this.button3.Enabled = true;
-                    System.Diagnostics.Debug.WriteLine("Button set");
+                    this.textBox1.Text = peak_force.ToString();
                 }
                 else
                 {
-                    double data = double.Parse(text);
-                    System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
-
-                    if(data>= min_force && data <= max_force)
-                    {
-                        String toSend = "";
-                        String t = DateTime.Now.ToString();
-                        toSend = String.Concat(t, ",");
-                        toSend = String.Concat(toSend, data.ToString());
-                        toSend = String.Concat(toSend, "\n");
-                        writer = new StreamWriter(textName, true);
-                        using (writer)
-                        {
-                            writer.Write(toSend);
-                        }
-                
-                        if (data > peak_force)
-                        {
-                            SuspendLayout();
-                            peak_force = data;
-                            if (choice == 1)
-                            {
-                                this.textBox1.Text = peak_force.ToString();
-                            }
-                            else
-                            {
-                                this.textBox4.Text = peak_force.ToString();
-                            }
-                            ResumeLayout(performLayout: true);
-                        }
-
-                        this.chart1.ChartAreas[0].RecalculateAxesScale();
-                        this.chart1.Series["Force vs Time"].Points.AddXY(count, data);
-                        if (count > 14)
-                        {
-                            this.chart1.ChartAreas[0].AxisX.Minimum += 1;
-                            this.chart1.ChartAreas[0].AxisX.Maximum += 1;
-                        }
-                        count++;
-                    }
-                    else
-                    {
-                        if(data>max_force)
-                        {
-                            serialPort1.WriteLine("*CPF00\'");
-                            this.button2.BackgroundImage = Properties.Resources.resume;
-                            second = 1;
-                            MessageBox.Show("Force values exceeded max insertion force, testing paused.");
-                        }
-                        else
-                        {
-                            serialPort1.WriteLine("*CPF00\'");
-                            this.button2.BackgroundImage = Properties.Resources.resume;
-                            second = 1;
-                            MessageBox.Show("Force values exceeded max retraction force, testing paused.");
-                        }
-                    }
-
+                    this.textBox4.Text = peak_force.ToString();
                 }
             }
         }
@@ -573,32 +583,26 @@ namespace WindowsFormsApp1
             default_speed = form3.trackBar1.Value * 10;
             form3.Hide();
             String tosend = "";
-            //System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
 
             if (default_speed == 10)
             {
                 tosend = "*S40";
-                //serialPort1.WriteLine();
             }
             else if (default_speed == 20)
             {
                 tosend = "*S30";
-                //serialPort1.WriteLine("*S30\'");
             }
             else if (default_speed == 30)
             {
                 tosend = "*S20";
-                //serialPort1.WriteLine("*S20\'");
             }
             else if (default_speed == 40)
             {
                 tosend = "*S13";
-                //serialPort1.WriteLine("*S13\'");
             }
             else if (default_speed == 50)
             {
                 tosend = "*S10";
-                //serialPort1.WriteLine("*S10\'");
             }
 
             if (this.position == 1)
@@ -688,32 +692,26 @@ namespace WindowsFormsApp1
             default_speed = form3.trackBar1.Value * 10;
             form3.Hide();
             String tosend = "";
-            //System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
 
             if (default_speed == 10)
             {
                 tosend = "*S40";
-                //serialPort1.WriteLine();
             }
             else if (default_speed == 20)
             {
                 tosend = "*S30";
-                //serialPort1.WriteLine("*S30\'");
             }
             else if (default_speed == 30)
             {
                 tosend = "*S20";
-                //serialPort1.WriteLine("*S20\'");
             }
             else if (default_speed == 40)
             {
                 tosend = "*S13";
-                //serialPort1.WriteLine("*S13\'");
             }
             else if (default_speed == 50)
             {
                 tosend = "*S10";
-                //serialPort1.WriteLine("*S10\'");
             }
 
             if (this.position == 1)
