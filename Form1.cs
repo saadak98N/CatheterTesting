@@ -77,7 +77,7 @@ namespace WindowsFormsApp1
             s = (int)x;
             System.Diagnostics.Debug.WriteLine(wt + "ABC" + ht + "DEF" + s);
             pictureBox2.Height = s;
-            pictureBox2.Width = wt / 2;
+            pictureBox2.Width = (int)wt / 2;
             this.chart1.Height = s;
 
             pictureBox2.Location = new Point(wt / 2, 0);
@@ -157,10 +157,7 @@ namespace WindowsFormsApp1
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            if (pictureBox2.Image != null)
-            {
-                pictureBox2.Image.Dispose();
-            }
+            
             Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
             bool source_is_wider = (float)bmp.Width / bmp.Height > (float)pictureBox2.Width / pictureBox2.Height;
             var resized = new Bitmap(pictureBox2.Width, pictureBox2.Height);
@@ -186,6 +183,10 @@ namespace WindowsFormsApp1
                 g.Dispose();
                 try
                 {
+                    if (this.pictureBox2.Image != null)
+                    {
+                        this.pictureBox2.Image.Dispose();
+                    }
                     this.pictureBox2.Image = resized;
                 }
                 catch (System.InvalidOperationException)
@@ -218,13 +219,14 @@ namespace WindowsFormsApp1
         {
             try
             {
+                
+                bp = new Bitmap(wt, ht);
+                gr = Graphics.FromImage(bp);
+                gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
                 if (pictureBox1.Image != null)
                 {
                     pictureBox1.Image.Dispose();
                 }
-                bp = new Bitmap(wt, ht);
-                gr = Graphics.FromImage(bp);
-                gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
                 pictureBox1.Image = bp;
                 pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
                 try
@@ -304,6 +306,9 @@ namespace WindowsFormsApp1
             }
 
             if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
+
+            System.Diagnostics.Debug.WriteLine("time is: " + wt + ht);
+
             vf.Open(filename, wt, ht, 25, VideoCodec.MPEG4, 1000000);
 
             timer1.Start();
