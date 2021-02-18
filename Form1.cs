@@ -145,12 +145,12 @@ namespace WindowsFormsApp1
             ss.Height = ht / 9;
             ss.Width = wt / 15;
 
-            home.Location = new Point(1, chart1.Height + 2);
-            play.Location = new Point(home.Location.X + home.Width + 10, chart1.Height + 2);
-            stop.Location = new Point(play.Location.X + play.Width + 10, chart1.Height + 2);
-            res.Location = new Point(stop.Location.X + stop.Width + 10, chart1.Height + 2);
-            pause.Location = new Point(res.Location.X + res.Width + 10, chart1.Height + 2);
-            ss.Location = new Point(pause.Location.X + pause.Width + 10, chart1.Height + 2);
+            home.Location = new Point(2, settings.Location.Y - settings.Height - 2);
+            play.Location = new Point(home.Location.X + home.Width + 10, settings.Location.Y - settings.Height - 2);
+            stop.Location = new Point(play.Location.X + play.Width + 10, settings.Location.Y - settings.Height - 2);
+            res.Location = new Point(stop.Location.X + stop.Width + 10, settings.Location.Y - settings.Height - 2);
+            pause.Location = new Point(res.Location.X + res.Width + 10, settings.Location.Y - settings.Height - 2);
+            ss.Location = new Point(pause.Location.X + pause.Width + 10, settings.Location.Y - settings.Height - 2);
 
             label4.Location = new Point(chart1.Width / 2, chart1.Height - 2);
 
