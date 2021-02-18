@@ -259,6 +259,7 @@ namespace WindowsFormsApp1
                 this.pause.Enabled = false;
                 this.res.Enabled = false;
                 this.textBox3.Enabled = false;
+                this.textBox2.Enabled = false;
                 this.comboBox1.Enabled = false;
             }
             else
@@ -655,6 +656,7 @@ namespace WindowsFormsApp1
 
             this.settings.Enabled = true;
             this.textBox3.Enabled = true;
+            this.textBox2.Enabled = true;
             this.comboBox1.Enabled = true;
         }
 
