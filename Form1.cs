@@ -56,10 +56,6 @@ namespace WindowsFormsApp1
         private PictureBox pictureBox1 = new PictureBox();
         private string filename;
 
-        //Button text switch flags
-        private int first = 0;
-
-        private int second = 0;
 
         public Form1(String comname, String drivename)
         {
@@ -145,7 +141,7 @@ namespace WindowsFormsApp1
             ss.Height = ht / 9;
             ss.Width = wt / 15;
 
-            home.Location = new Point(2, settings.Location.Y - settings.Height - 2);
+            home.Location = new Point(((((wt/2)/2)/2)/2)/2, settings.Location.Y - settings.Height - 2);
             play.Location = new Point(home.Location.X + home.Width + 10, settings.Location.Y - settings.Height - 2);
             stop.Location = new Point(play.Location.X + play.Width + 10, settings.Location.Y - settings.Height - 2);
             res.Location = new Point(stop.Location.X + stop.Width + 10, settings.Location.Y - settings.Height - 2);
@@ -311,7 +307,6 @@ namespace WindowsFormsApp1
 
             timer1.Start();
             serialPort1.WriteLine("*CF000\'");
-            first = 1;
             chart1.Series["Force vs Time"].Points.Clear();
             this.chart1.ChartAreas[0].AxisX.Minimum = 0;
             this.chart1.ChartAreas[0].AxisX.Maximum = 15;
