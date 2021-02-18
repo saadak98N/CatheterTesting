@@ -73,23 +73,23 @@ namespace WindowsFormsApp1
 
             drive = drivename;
 
-            ht = Screen.PrimaryScreen.Bounds.Height; 
+            ht = Screen.PrimaryScreen.Bounds.Height;
             wt = Screen.PrimaryScreen.Bounds.Width;
 
-            this.chart1.Width = wt/2;
-            double x= (ht / 5)*3.2;
+            this.chart1.Width = wt / 2;
+            double x = (ht / 5) * 3.2;
             s = (int)x;
-            System.Diagnostics.Debug.WriteLine(wt + "ABC" + ht + "DEF"+s);
+            System.Diagnostics.Debug.WriteLine(wt + "ABC" + ht + "DEF" + s);
             pictureBox2.Height = s;
             pictureBox2.Width = wt / 2;
             this.chart1.Height = s;
-            
-            pictureBox2.Location = new Point(wt/2, 0);
-            
+
+            pictureBox2.Location = new Point(wt / 2, 0);
+
             form3 = new Form3(default_speed, max_force, position, min_force);
             form3.Closed += form3closed;
             form3.button2.Click += new EventHandler(configButton);
-            
+
             usbCams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo Device in usbCams)
             {
@@ -109,10 +109,10 @@ namespace WindowsFormsApp1
 
             this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);
-            
+
             form3.TopMost = true;
             form3.Show();
-            
+
             serialPort1.PortName = comname;
             try
             {
@@ -145,13 +145,13 @@ namespace WindowsFormsApp1
             ss.Height = ht / 9;
             ss.Width = wt / 15;
 
-            home.Location = new Point(1, chart1.Height+2);
-            play.Location = new Point(home.Location.X+home.Width + 10, chart1.Height + 2);
+            home.Location = new Point(1, chart1.Height + 2);
+            play.Location = new Point(home.Location.X + home.Width + 10, chart1.Height + 2);
             stop.Location = new Point(play.Location.X + play.Width + 10, chart1.Height + 2);
             res.Location = new Point(stop.Location.X + stop.Width + 10, chart1.Height + 2);
-            pause.Location = new Point(res.Location.X+res.Width + 10, chart1.Height + 2);
-            ss.Location = new Point(pause.Location.X+pause.Width + 10, chart1.Height + 2);
-            
+            pause.Location = new Point(res.Location.X + res.Width + 10, chart1.Height + 2);
+            ss.Location = new Point(pause.Location.X + pause.Width + 10, chart1.Height + 2);
+
             label4.Location = new Point(chart1.Width / 2, chart1.Height - 2);
 
             play.Enabled = false;
@@ -161,7 +161,7 @@ namespace WindowsFormsApp1
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            if(pictureBox2.Image!=null)
+            if (pictureBox2.Image != null)
             {
                 pictureBox2.Image.Dispose();
             }
@@ -194,23 +194,23 @@ namespace WindowsFormsApp1
                 }
                 catch (System.InvalidOperationException)
                 {
-                    if(g!=null)
+                    if (g != null)
                     {
                         g.Dispose();
                     }
-                    if(bmp!=null)
+                    if (bmp != null)
                     {
                         bmp.Dispose();
                     }
                 }
             }
-            catch(System.OutOfMemoryException)
+            catch (System.OutOfMemoryException)
             {
-                if(bmp!=null)
+                if (bmp != null)
                 {
                     bmp.Dispose();
                 }
-                if(g!=null)
+                if (g != null)
                 {
                     g.Dispose();
                 }
@@ -222,7 +222,7 @@ namespace WindowsFormsApp1
         {
             try
             {
-                if(pictureBox1.Image!=null)
+                if (pictureBox1.Image != null)
                 {
                     pictureBox1.Image.Dispose();
                 }
@@ -237,14 +237,14 @@ namespace WindowsFormsApp1
                 }
                 catch (System.OutOfMemoryException)
                 {
-                    if(bp!=null)
+                    if (bp != null)
                     {
                         bp.Dispose();
                     }
                 }
                 gr.Dispose();
             }
-            catch(System.ArgumentException)
+            catch (System.ArgumentException)
             {
 
             }
@@ -287,28 +287,28 @@ namespace WindowsFormsApp1
             this.pause.Enabled = true;
             this.settings.Enabled = false;
             this.play.Enabled = false;
-                
-            string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
-            System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
+
+            string pathToNewFolder = System.IO.Path.Combine(drive + "Recordings_NHT", dept);
+            System.Diagnostics.Debug.WriteLine("time is: " + pathToNewFolder);
 
             DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
             DateTime today = DateTime.Today;
             string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
-            String name = pathToNewFolder + "lot_" + lot+ today + ".avi";
+            String name = pathToNewFolder + "lot_" + lot + today + ".avi";
             filename = @mypath + lot + ".avi";
             if (System.IO.File.Exists(filename))
                 System.IO.File.Delete(filename);
-            
+
             textName = mypath + lot + ".txt";
             writer = new StreamWriter(textName, true);
             using (writer)
             {
                 writer.Write("time,force \n");
             }
-            
+
             if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
             vf.Open(filename, wt, ht, 25, VideoCodec.MPEG4, 1000000);
-            
+
             timer1.Start();
             serialPort1.WriteLine("*CF000\'");
             first = 1;
@@ -325,13 +325,13 @@ namespace WindowsFormsApp1
             int bytesToRead = sp.BytesToRead;
             var bytes = new byte[7];
             sp.Read(bytes, 0, 7);
-            if (bytesToRead%7 == 0)
+            if (bytesToRead % 7 == 0)
             {
                 System.Diagnostics.Debug.WriteLine("Recv: " + bytes + " " + bytesToRead);
                 string bitString = BitConverter.ToString(bytes);
                 System.Diagnostics.Debug.WriteLine("String: " + bitString);
                 List<string> listStrLineElements = bitString.Split('-').ToList();
-      
+
                 if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
                 {
                     int decValue1 = int.Parse(listStrLineElements[1], System.Globalization.NumberStyles.HexNumber);
@@ -344,7 +344,7 @@ namespace WindowsFormsApp1
                     {
                         neg = -1;
                     }
-                    double toSend = ((100 * decValue2) + (10 * decValue3) + (decValue4) + (decValue5 * 0.1))*neg;
+                    double toSend = ((100 * decValue2) + (10 * decValue3) + (decValue4) + (decValue5 * 0.1)) * neg;
                     System.Diagnostics.Debug.WriteLine("Force: " + toSend.ToString());
                     int times = bytesToRead / 7;
                     System.Diagnostics.Debug.WriteLine("Times " + times);
@@ -394,7 +394,7 @@ namespace WindowsFormsApp1
                     if (data > peak_force)
                     {
                         peak_force = data;
-                        if (peak_force>0)
+                        if (peak_force > 0)
                         {
                             this.textBox1.Text = peak_force.ToString();
                         }
@@ -455,7 +455,7 @@ namespace WindowsFormsApp1
                                         CopyPixelOperation.SourceCopy);
             DateTime today = DateTime.Today;
             // Save the screenshot to the specified path that the user has chosen.
-            bmpScreenshot.Save(drive + "Recordings_NHT\\" + dept+"\\lot_"+count.ToString()+".png", ImageFormat.Png);
+            bmpScreenshot.Save(drive + "Recordings_NHT\\" + dept + "\\lot_" + count.ToString() + ".png", ImageFormat.Png);
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -540,7 +540,7 @@ namespace WindowsFormsApp1
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            if(a==0)
+            if (a == 0)
             {
                 DialogResult dr = MessageBox.Show("Are you sure you want to close?",
                       "Confirmation", MessageBoxButtons.YesNo);
