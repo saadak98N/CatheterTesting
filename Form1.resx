@@ -124,7 +124,7 @@
     <value>126, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button5.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="settings.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAQxJREFUWEft
         mEEKwjAQRXtCFx5CwTOI4N5L6CU8ns5QCiG8JDORdFzkwYMS8n9m09J2mUzafBqGQ0OlhkNDpYbyEmmo
@@ -134,7 +134,7 @@
         Xx9PMRQaKjUcGio1HBoqdTIpsyxfWrxk/3yPnr0AAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="button4.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ss.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAAJNJREFUWEft
         mDEOwjAQBN3Cayj4/wso+EyghLtuZZ1yYYMQoBlpOms9ZeIB8IUcw3OjS7WlHsKWPPhodKm21FPYQuCK
@@ -142,7 +142,7 @@
         3RSYT2B5cE2Xakvd9PwG8DnGeALcz8WiXHR6cAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="button3.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="play.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAANlJREFUWEft
         2DkOwkAMQNFcCnECREnBKbgAl2d1ipFG0Vdmsz0u8qXXII3tIhXLkUG/zGv9IVr5gclJhIkOTEJEh21N
@@ -151,7 +151,7 @@
         cI2OIB8xJTpma2p0UBIiOuwswpQfFvIv4KP6luUPaCaX71+nBCMAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="button1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="home.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAABGdBTUEAALGPC/xhBQAAATdJREFUWEfN
         11FKw0AURuFsqMvzWZcgQjchuDurYgv1XuiUOJzWk3YyzoEPJMkfh/apU8Oew/Ek/x6q91AOV+S1IdqF

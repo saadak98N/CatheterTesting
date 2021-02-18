@@ -19,8 +19,6 @@ namespace WindowsFormsApp1
         int wt;
         int s;
         int a = 0;
-        String resume = "*CF000\'";
-        int choice = 1;
         //force range
         int max_force;
         int min_force;
@@ -66,14 +64,18 @@ namespace WindowsFormsApp1
         public Form1(String comname, String drivename)
         {
             InitializeComponent();
-            max_force = 1000;
             this.WindowState = FormWindowState.Maximized;
+
+            max_force = 1000;
             min_force = -1000;
             default_speed = 10;
             position = 3;
+
             drive = drivename;
+
             ht = Screen.PrimaryScreen.Bounds.Height; 
             wt = Screen.PrimaryScreen.Bounds.Width;
+
             this.chart1.Width = wt/2;
             double x= (ht / 5)*3.2;
             s = (int)x;
@@ -81,10 +83,13 @@ namespace WindowsFormsApp1
             pictureBox2.Height = s;
             pictureBox2.Width = wt / 2;
             this.chart1.Height = s;
+            
             pictureBox2.Location = new Point(wt/2, 0);
+            
             form3 = new Form3(default_speed, max_force, position, min_force);
             form3.Closed += form3closed;
             form3.button2.Click += new EventHandler(configButton);
+            
             usbCams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo Device in usbCams)
             {
@@ -98,17 +103,16 @@ namespace WindowsFormsApp1
                 }
             }
 
-            this.button2.Enabled = false;
-            this.button3.Enabled = false;
-
             timer1 = new Timer();
             timer1.Tick += timer1_Tick;
             vf = new VideoFileWriter();
 
             this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);
+            
             form3.TopMost = true;
             form3.Show();
+            
             serialPort1.PortName = comname;
             try
             {
@@ -128,20 +132,32 @@ namespace WindowsFormsApp1
 
         private void sizeThings()
         {
-            button1.Height = ht / 9;
-            button1.Width = wt / 14;
-            button2.Height = ht / 9;
-            button2.Width = wt / 14;
-            button3.Height = ht / 9;
-            button3.Width = wt / 14;
-            button4.Height = ht / 9;
-            button4.Width = wt / 14;
-            System.Diagnostics.Debug.WriteLine(ht/2);
-            button1.Location = new Point(((((wt/2)/2)/2)/2), chart1.Height+5);
-            button3.Location = new Point(button1.Location.X+button1.Width + 20, chart1.Height + 5);
-            button2.Location = new Point(button3.Location.X+button3.Width + 20, chart1.Height + 5);
-            button4.Location = new Point(button2.Location.X+button2.Width + 20, chart1.Height + 5);
-            label4.Location = new Point(chart1.Width / 2, chart1.Height - 5);
+            home.Height = ht / 9;
+            home.Width = wt / 15;
+            play.Height = ht / 9;
+            play.Width = wt / 15;
+            stop.Height = ht / 9;
+            stop.Width = wt / 15;
+            res.Height = ht / 9;
+            res.Width = wt / 15;
+            pause.Height = ht / 9;
+            pause.Width = wt / 15;
+            ss.Height = ht / 9;
+            ss.Width = wt / 15;
+
+            home.Location = new Point(1, chart1.Height+2);
+            play.Location = new Point(home.Location.X+home.Width + 10, chart1.Height + 2);
+            stop.Location = new Point(play.Location.X + play.Width + 10, chart1.Height + 2);
+            res.Location = new Point(stop.Location.X + stop.Width + 10, chart1.Height + 2);
+            pause.Location = new Point(res.Location.X+res.Width + 10, chart1.Height + 2);
+            ss.Location = new Point(pause.Location.X+pause.Width + 10, chart1.Height + 2);
+            
+            label4.Location = new Point(chart1.Width / 2, chart1.Height - 2);
+
+            play.Enabled = false;
+            stop.Enabled = false;
+            res.Enabled = false;
+            pause.Enabled = false;
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
@@ -199,7 +215,6 @@ namespace WindowsFormsApp1
                     g.Dispose();
                 }
             }
-            
         }
 
 
@@ -211,7 +226,7 @@ namespace WindowsFormsApp1
                 {
                     pictureBox1.Image.Dispose();
                 }
-                bp = new Bitmap(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
+                bp = new Bitmap(wt, ht);
                 gr = Graphics.FromImage(bp);
                 gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
                 pictureBox1.Image = bp;
@@ -243,9 +258,10 @@ namespace WindowsFormsApp1
                 serialPort1.WriteLine("*CH000\'");
                 this.label6.Visible = false;
                 lot = this.textBox3.Text;
-                this.button1.Enabled = false;
-                this.button3.Enabled = true;
-                this.button2.Enabled = false;
+                this.home.Enabled = false;
+                this.play.Enabled = true;
+                this.pause.Enabled = false;
+                this.res.Enabled = false;
                 this.textBox3.Enabled = false;
                 this.comboBox1.Enabled = false;
             }
@@ -257,124 +273,50 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (second == 0)
-            {
-                SuspendLayout();
-                try
-                {
-                    this.button2.BackgroundImage = Properties.Resources.resume;
-                }
-                finally
-                {
-                    ResumeLayout(performLayout: true);
-                }
-                serialPort1.WriteLine("*CP000\'");
-                System.Diagnostics.Debug.WriteLine("Paused");
-
-                second = 1;
-            }
-            else
-            {
-                SuspendLayout();
-                try
-                {
-                    this.button2.BackgroundImage = Properties.Resources.pause;
-                }
-                finally
-                {
-                    ResumeLayout(performLayout: true);
-                }
-                serialPort1.WriteLine(resume);
-                System.Diagnostics.Debug.WriteLine("Resumed");
-                second = 0;
-            }
+            serialPort1.WriteLine("*CP000\'");
+            System.Diagnostics.Debug.WriteLine("Paused");
+            res.Enabled = true;
+            pause.Enabled = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (first == 0)
+            this.home.Enabled = false;
+            this.stop.Enabled = true;
+            this.res.Enabled = false;
+            this.pause.Enabled = true;
+            this.settings.Enabled = false;
+            this.play.Enabled = false;
+                
+            string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
+            System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
+
+            DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+            DateTime today = DateTime.Today;
+            string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
+            String name = pathToNewFolder + "lot_" + lot+ today + ".avi";
+            filename = @mypath + lot + ".avi";
+            if (System.IO.File.Exists(filename))
+                System.IO.File.Delete(filename);
+            
+            textName = mypath + lot + ".txt";
+            writer = new StreamWriter(textName, true);
+            using (writer)
             {
-                SuspendLayout();
-                try
-                {
-                    button3.BackgroundImage = Properties.Resources.stop;
-                    button3.BackColor = Color.LightCoral;
-                    button3.FlatAppearance.MouseOverBackColor = Color.Red;
-                    button3.FlatAppearance.MouseDownBackColor = Color.Red;
-                    this.button5.Enabled = false;
-                }
-                finally
-                {
-                    ResumeLayout(performLayout: true);
-                }
-
-                string pathToNewFolder = System.IO.Path.Combine(drive+"Recordings_NHT", dept);
-                System.Diagnostics.Debug.WriteLine("time is: "+pathToNewFolder);
-
-                DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
-                DateTime today = DateTime.Today;
-                string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
-                String name = pathToNewFolder + "lot_" + lot+ today + ".avi";
-                filename = @mypath + lot + ".avi";
-                if (System.IO.File.Exists(filename))
-                    System.IO.File.Delete(filename);
-                textName = mypath + lot + ".txt";
-                writer = new StreamWriter(textName, true);
-                using (writer)
-                {
-                    writer.Write("time,force \n");
-                }
-                this.button1.Enabled = false;
-                this.button2.Enabled = true;
-                if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
-                vf.Open(filename, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height, 25, VideoCodec.MPEG4, 1000000);
-                timer1.Start();
-                serialPort1.WriteLine(resume);
-                first = 1;
-                chart1.Series["Force vs Time"].Points.Clear();
-                this.chart1.ChartAreas[0].AxisX.Minimum = 0;
-                this.chart1.ChartAreas[0].AxisX.Maximum = 15;
-                count = 0;
-                this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
+                writer.Write("time,force \n");
             }
-            else
-            {
-                DialogResult dr;
-                SuspendLayout();
-                try
-                {
-                    dr = MessageBox.Show(new Form { TopMost = true }, "Stopping will end and save the recording, proceed?",
-                    "Confirmation", MessageBoxButtons.YesNo);
-                }
-                finally
-                {
-                    ResumeLayout(performLayout: true);
-                }
-                switch (dr)
-                    {
-                        case DialogResult.Yes:
-                            timer1.Stop();
-                            vf.Close();
-                            first = 0;
-                            button3.BackgroundImage = Properties.Resources.play;
-                            button3.BackColor = Color.LightGreen;
-                            button3.FlatAppearance.MouseOverBackColor = Color.Green;
-                            button3.FlatAppearance.MouseDownBackColor = Color.Green;
-
-                            serialPort1.WriteLine("*CP000\'");
-                            this.button1.Enabled = true;
-                            this.button3.Enabled = false;
-                            this.button2.Enabled = false;
-                            this.button5.Enabled = true;
-                            this.textBox3.Enabled = true;
-                            this.comboBox1.Enabled = true;
-
-                            break;
-
-                        case DialogResult.No:
-                            break;
-                    }
-            }
+            
+            if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
+            vf.Open(filename, wt, ht, 25, VideoCodec.MPEG4, 1000000);
+            
+            timer1.Start();
+            serialPort1.WriteLine("*CF000\'");
+            first = 1;
+            chart1.Series["Force vs Time"].Points.Clear();
+            this.chart1.ChartAreas[0].AxisX.Minimum = 0;
+            this.chart1.ChartAreas[0].AxisX.Maximum = 15;
+            count = 0;
+            this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
         }
 
         private void SerialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -389,21 +331,8 @@ namespace WindowsFormsApp1
                 string bitString = BitConverter.ToString(bytes);
                 System.Diagnostics.Debug.WriteLine("String: " + bitString);
                 List<string> listStrLineElements = bitString.Split('-').ToList();
-                if(listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "31")
-                {
-                    resume = "*CF000\'";
-                    choice = 1;
-                    System.Diagnostics.Debug.WriteLine("RES: FWD");
-
-                }
-                else if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F" && listStrLineElements[2] == "41" && listStrLineElements[1] == "32")
-                {
-                    resume = "*CB000\'";
-                    choice = 0;
-                    System.Diagnostics.Debug.WriteLine("RES: BWD");
-
-                }
-                else if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
+      
+                if (listStrLineElements[0] == "2A" && listStrLineElements[6] == "2F")
                 {
                     int decValue1 = int.Parse(listStrLineElements[1], System.Globalization.NumberStyles.HexNumber);
                     int decValue2 = int.Parse(listStrLineElements[2], System.Globalization.NumberStyles.HexNumber);
@@ -423,83 +352,16 @@ namespace WindowsFormsApp1
                     {
                         while (times >= 1)
                         {
-                            SetGraph(toSend.ToString());
+                            SetText(toSend.ToString());
                             times--;
                         }
                     }
-                    SetGraph(toSend.ToString());
+                    SetText(toSend.ToString());
                 }
                 System.Diagnostics.Debug.WriteLine("THE END!");
                 sp.DiscardInBuffer();
             }
 
-        }
-
-        private void SetGraph(string text)
-        {
-            double data = double.Parse(text);
-            System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
-
-            if (data >= min_force && data <= max_force)
-            {
-                String toSend = "";
-                String t = DateTime.Now.ToString();
-                toSend = String.Concat(t, ",");
-                toSend = String.Concat(toSend, data.ToString());
-                toSend = String.Concat(toSend, "\n");
-                writer = new StreamWriter(textName, true);
-                using (writer)
-                {
-                    writer.Write(toSend);
-                }
-
-                if (data > peak_force)
-                {
-                    peak_force = data;
-                    SetText(data.ToString());
-                }
-
-                this.chart1.ChartAreas[0].RecalculateAxesScale();
-                this.chart1.Series["Force vs Time"].Points.AddXY(count, data);
-                if (count > 14)
-                {
-                    this.chart1.ChartAreas[0].AxisX.Minimum += 1;
-                    this.chart1.ChartAreas[0].AxisX.Maximum += 1;
-                }
-                count++;
-            }
-            else
-            {
-                if (data > max_force)
-                {
-                    serialPort1.WriteLine("*CPF00\'");
-                    try
-                    {
-                        this.button2.BackgroundImage = Properties.Resources.resume;
-                    }
-                    finally
-                    {
-                        ResumeLayout(performLayout: true);
-                    }
-                    second = 1;
-                    MessageBox.Show("Force values exceeded max insertion force, testing paused.");
-                }
-                else
-                {
-                    serialPort1.WriteLine("*CPF00\'");
-                    SuspendLayout();
-                    try
-                    {
-                        this.button2.BackgroundImage = Properties.Resources.resume;
-                    }
-                    finally
-                    {
-                        ResumeLayout(performLayout: true);
-                    }
-                    second = 1;
-                    MessageBox.Show("Force values exceeded max retraction force, testing paused.");
-                }
-            }
         }
 
         private delegate void SetTextCallback(string text);
@@ -514,13 +376,55 @@ namespace WindowsFormsApp1
             else
             {
                 double data = double.Parse(text);
-                if (choice == 1)
+                System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
+
+                if (data >= min_force && data <= max_force)
                 {
-                    this.textBox1.Text = peak_force.ToString();
+                    String toSend = "";
+                    String t = DateTime.Now.ToString();
+                    toSend = String.Concat(t, ",");
+                    toSend = String.Concat(toSend, data.ToString());
+                    toSend = String.Concat(toSend, "\n");
+                    writer = new StreamWriter(textName, true);
+                    using (writer)
+                    {
+                        writer.Write(toSend);
+                    }
+
+                    if (data > peak_force)
+                    {
+                        peak_force = data;
+                        if (peak_force>0)
+                        {
+                            this.textBox1.Text = peak_force.ToString();
+                        }
+                        else
+                        {
+                            this.textBox4.Text = peak_force.ToString();
+                        }
+                    }
+
+                    this.chart1.ChartAreas[0].RecalculateAxesScale();
+                    this.chart1.Series["Force vs Time"].Points.AddXY(count, data);
+                    if (count > 14)
+                    {
+                        this.chart1.ChartAreas[0].AxisX.Minimum += 1;
+                        this.chart1.ChartAreas[0].AxisX.Maximum += 1;
+                    }
+                    count++;
                 }
                 else
                 {
-                    this.textBox4.Text = peak_force.ToString();
+                    if (data > max_force)
+                    {
+                        serialPort1.WriteLine("*CPF00\'");
+                        MessageBox.Show("Force values exceeded max insertion force, testing paused.");
+                    }
+                    else
+                    {
+                        serialPort1.WriteLine("*CPF00\'");
+                        MessageBox.Show("Force values exceeded max retraction force, testing paused.");
+                    }
                 }
             }
         }
@@ -741,6 +645,30 @@ namespace WindowsFormsApp1
             }
             System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
 
+        }
+
+        private void stop_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            vf.Close();
+            serialPort1.WriteLine("*CP000\'");
+            this.home.Enabled = true;
+            this.play.Enabled = false;
+            this.stop.Enabled = false;
+            this.pause.Enabled = false;
+            this.res.Enabled = false;
+
+            this.settings.Enabled = true;
+            this.textBox3.Enabled = true;
+            this.comboBox1.Enabled = true;
+        }
+
+        private void res_Click(object sender, EventArgs e)
+        {
+            serialPort1.WriteLine("*CF000\'");
+            System.Diagnostics.Debug.WriteLine("Resumed");
+            res.Enabled = false;
+            pause.Enabled = true;
         }
     }
 }

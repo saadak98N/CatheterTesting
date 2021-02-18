@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -42,11 +42,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.settings = new System.Windows.Forms.Button();
+            this.ss = new System.Windows.Forms.Button();
+            this.play = new System.Windows.Forms.Button();
+            this.pause = new System.Windows.Forms.Button();
+            this.home = new System.Windows.Forms.Button();
+            this.stop = new System.Windows.Forms.Button();
+            this.res = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -166,98 +168,136 @@
             // 
             this.tooltip.Tag = "";
             // 
-            // button5
+            // settings
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button5.BackColor = System.Drawing.Color.White;
-            this.button5.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button5.BackgroundImage")));
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.ForeColor = System.Drawing.Color.Transparent;
-            this.button5.Location = new System.Drawing.Point(2, 589);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(50, 50);
-            this.button5.TabIndex = 16;
-            this.tooltip.SetToolTip(this.button5, "Settings");
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.settings.BackColor = System.Drawing.Color.White;
+            this.settings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("settings.BackgroundImage")));
+            this.settings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.settings.FlatAppearance.BorderSize = 0;
+            this.settings.Font = new System.Drawing.Font("Arial Rounded MT Bold", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.settings.ForeColor = System.Drawing.Color.Transparent;
+            this.settings.Location = new System.Drawing.Point(2, 589);
+            this.settings.Name = "settings";
+            this.settings.Size = new System.Drawing.Size(50, 50);
+            this.settings.TabIndex = 16;
+            this.tooltip.SetToolTip(this.settings, "Settings");
+            this.settings.UseVisualStyleBackColor = false;
+            this.settings.Click += new System.EventHandler(this.button5_Click);
             // 
-            // button4
+            // ss
             // 
-            this.button4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button4.BackColor = System.Drawing.Color.Silver;
-            this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
-            this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
-            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(426, 476);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(100, 70);
-            this.button4.TabIndex = 14;
-            this.tooltip.SetToolTip(this.button4, "Screenshot");
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.ss.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.ss.BackColor = System.Drawing.Color.Silver;
+            this.ss.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ss.BackgroundImage")));
+            this.ss.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ss.FlatAppearance.BorderSize = 0;
+            this.ss.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.ss.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.ss.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ss.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ss.Location = new System.Drawing.Point(512, 476);
+            this.ss.Name = "ss";
+            this.ss.Size = new System.Drawing.Size(80, 70);
+            this.ss.TabIndex = 14;
+            this.tooltip.SetToolTip(this.ss, "Screenshot");
+            this.ss.UseVisualStyleBackColor = false;
+            this.ss.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button3
+            // play
             // 
-            this.button3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button3.BackColor = System.Drawing.Color.LightGreen;
-            this.button3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button3.BackgroundImage")));
-            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.GreenYellow;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(175, 474);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(100, 70);
-            this.button3.TabIndex = 2;
-            this.tooltip.SetToolTip(this.button3, "Start/Stop");
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.play.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.play.BackColor = System.Drawing.Color.LightGreen;
+            this.play.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("play.BackgroundImage")));
+            this.play.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.play.FlatAppearance.BorderSize = 0;
+            this.play.FlatAppearance.MouseDownBackColor = System.Drawing.Color.GreenYellow;
+            this.play.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Green;
+            this.play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.play.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.play.Location = new System.Drawing.Point(106, 474);
+            this.play.Name = "play";
+            this.play.Size = new System.Drawing.Size(80, 70);
+            this.play.TabIndex = 2;
+            this.tooltip.SetToolTip(this.play, "Start");
+            this.play.UseVisualStyleBackColor = false;
+            this.play.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button2
+            // pause
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button2.BackColor = System.Drawing.Color.Gold;
-            this.button2.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.pause;
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.LightYellow;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightYellow;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(301, 476);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 70);
-            this.button2.TabIndex = 1;
-            this.tooltip.SetToolTip(this.button2, "Pause/Resume");
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.pause.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pause.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.pause.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.pause;
+            this.pause.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pause.FlatAppearance.BorderSize = 0;
+            this.pause.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Yellow;
+            this.pause.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Yellow;
+            this.pause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pause.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pause.Location = new System.Drawing.Point(412, 475);
+            this.pause.Name = "pause";
+            this.pause.Size = new System.Drawing.Size(80, 70);
+            this.pause.TabIndex = 1;
+            this.tooltip.SetToolTip(this.pause, "Pause");
+            this.pause.UseVisualStyleBackColor = false;
+            this.pause.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // home
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.button1.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.RoyalBlue;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.RoyalBlue;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(52, 474);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 70);
-            this.button1.TabIndex = 0;
-            this.tooltip.SetToolTip(this.button1, "Home");
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.home.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.home.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.home.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("home.BackgroundImage")));
+            this.home.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.home.FlatAppearance.BorderSize = 0;
+            this.home.FlatAppearance.MouseDownBackColor = System.Drawing.Color.RoyalBlue;
+            this.home.FlatAppearance.MouseOverBackColor = System.Drawing.Color.RoyalBlue;
+            this.home.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.home.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.home.Location = new System.Drawing.Point(3, 474);
+            this.home.Name = "home";
+            this.home.Size = new System.Drawing.Size(80, 70);
+            this.home.TabIndex = 0;
+            this.tooltip.SetToolTip(this.home, "Home");
+            this.home.UseVisualStyleBackColor = false;
+            this.home.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // stop
+            // 
+            this.stop.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.stop.BackColor = System.Drawing.Color.LightCoral;
+            this.stop.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.stop;
+            this.stop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.stop.FlatAppearance.BorderSize = 0;
+            this.stop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
+            this.stop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.stop.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stop.Location = new System.Drawing.Point(210, 474);
+            this.stop.Name = "stop";
+            this.stop.Size = new System.Drawing.Size(80, 70);
+            this.stop.TabIndex = 27;
+            this.tooltip.SetToolTip(this.stop, "Stop");
+            this.stop.UseVisualStyleBackColor = false;
+            this.stop.Click += new System.EventHandler(this.stop_Click);
+            // 
+            // res
+            // 
+            this.res.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.res.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.res.BackgroundImage = global::WindowsFormsApp1.Properties.Resources.resume;
+            this.res.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.res.FlatAppearance.BorderSize = 0;
+            this.res.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Yellow;
+            this.res.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Yellow;
+            this.res.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.res.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.res.Location = new System.Drawing.Point(313, 475);
+            this.res.Name = "res";
+            this.res.Size = new System.Drawing.Size(80, 70);
+            this.res.TabIndex = 28;
+            this.tooltip.SetToolTip(this.res, "Resume");
+            this.res.UseVisualStyleBackColor = false;
+            this.res.Click += new System.EventHandler(this.res_Click);
             // 
             // groupBox1
             // 
@@ -360,34 +400,34 @@
             this.chart1.BorderlineColor = System.Drawing.Color.Black;
             this.chart1.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.chart1.BorderlineWidth = 2;
-            chartArea1.AxisX.Interval = 1D;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.IsStartedFromZero = false;
-            chartArea1.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)));
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.SystemColors.ControlDark;
-            chartArea1.AxisX.Maximum = 15D;
-            chartArea1.AxisX.Minimum = 0D;
-            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.SystemColors.ControlDark;
-            chartArea1.BackColor = System.Drawing.Color.White;
-            chartArea1.BorderColor = System.Drawing.Color.White;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea4.AxisX.Interval = 1D;
+            chartArea4.AxisX.IsLabelAutoFit = false;
+            chartArea4.AxisX.IsStartedFromZero = false;
+            chartArea4.AxisX.LabelAutoFitStyle = ((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont | System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont)));
+            chartArea4.AxisX.LabelStyle.Enabled = false;
+            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.SystemColors.ControlDark;
+            chartArea4.AxisX.Maximum = 15D;
+            chartArea4.AxisX.Minimum = 0D;
+            chartArea4.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea4.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea4.AxisY.IsStartedFromZero = false;
+            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.SystemColors.ControlDark;
+            chartArea4.BackColor = System.Drawing.Color.White;
+            chartArea4.BorderColor = System.Drawing.Color.White;
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Margin = new System.Windows.Forms.Padding(0);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             this.chart1.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Blue};
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Name = "Force vs Time";
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart1.Series.Add(series1);
+            series4.BorderWidth = 3;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Name = "Force vs Time";
+            series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart1.Series.Add(series4);
             this.chart1.Size = new System.Drawing.Size(486, 464);
             this.chart1.TabIndex = 5;
             this.chart1.Text = "chart1";
@@ -398,21 +438,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1323, 642);
+            this.Controls.Add(this.res);
+            this.Controls.Add(this.stop);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.settings);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.ss);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.play);
+            this.Controls.Add(this.pause);
+            this.Controls.Add(this.home);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -432,10 +474,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button home;
         private System.IO.Ports.SerialPort serialPort1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button pause;
+        private System.Windows.Forms.Button play;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label4;
@@ -443,9 +485,9 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button ss;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button settings;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolTip tooltip;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -456,6 +498,8 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Button stop;
+        private System.Windows.Forms.Button res;
     }
 }
 
