@@ -191,10 +191,7 @@ namespace WindowsFormsApp1
                 }
                 catch (System.InvalidOperationException)
                 {
-                    if (g != null)
-                    {
-                        g.Dispose();
-                    }
+                    
                     if (bmp != null)
                     {
                         bmp.Dispose();
@@ -206,10 +203,6 @@ namespace WindowsFormsApp1
                 if (bmp != null)
                 {
                     bmp.Dispose();
-                }
-                if (g != null)
-                {
-                    g.Dispose();
                 }
             }
         }
