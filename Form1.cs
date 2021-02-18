@@ -18,7 +18,6 @@ namespace WindowsFormsApp1
         int ht;
         int wt;
         int s;
-        int a = 0;
         //force range
         int max_force;
         int min_force;
@@ -534,35 +533,30 @@ namespace WindowsFormsApp1
 
         private void Form1_FormClosing_1(object sender, FormClosingEventArgs e)
         {
-            if (a == 0)
+            DialogResult dr = MessageBox.Show("Are you sure you want to close?",
+                    "Confirmation", MessageBoxButtons.YesNo);
+            switch (dr)
             {
-                DialogResult dr = MessageBox.Show("Are you sure you want to close?",
-                      "Confirmation", MessageBoxButtons.YesNo);
-                switch (dr)
-                {
-                    case DialogResult.Yes:
-                        a = 1;
-                        try
-                        {
-                            serialPort1.WriteLine("*CX000\'");
-                        }
-                        catch (System.InvalidOperationException)
-                        {
+                case DialogResult.Yes:
+                    try
+                    {
+                        serialPort1.WriteLine("*CX000\'");
+                    }
+                    catch (System.InvalidOperationException)
+                    {
 
-                        }
-                        if (cam != null)
-                        {
-                            cam.Stop();
-                        }
-                        serialPort1.Close();
-                        System.Windows.Forms.Application.Exit();
-                        break;
+                    }
+                    if (cam != null)
+                    {
+                        cam.Stop();
+                    }
+                    serialPort1.Close();
+                    System.Windows.Forms.Application.Exit();
+                    break;
 
-                    case DialogResult.No:
-                        a = 0;
-                        e.Cancel = true;
-                        break;
-                }
+                case DialogResult.No:
+                    e.Cancel = true;
+                    break;
             }
         }
 
