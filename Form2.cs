@@ -32,7 +32,7 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(this.textBox1.Text == password && combox.SelectedIndex>-1 && drivebox.SelectedIndex>-1)
+            if(this.textBox1.Text == password && combox.SelectedIndex > -1 && drivebox.SelectedIndex>-1)
             {
                 Form1 form1 = new Form1(combox.SelectedItem.ToString(), drivebox.SelectedItem.ToString());
                 form1.Show();
