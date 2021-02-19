@@ -24,6 +24,7 @@ namespace WindowsFormsApp1
         int min_force;
         int position;
         double peak_force = 0.0;
+        double peak_min = 0.0;
         int default_speed;
         Form3 form3;
         StreamWriter writer;
@@ -194,16 +195,29 @@ namespace WindowsFormsApp1
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-                Bitmap bp = new Bitmap(wt, ht);
-                var gr = Graphics.FromImage(bp);
+            Bitmap bp = new Bitmap(wt, ht);
+            var gr = Graphics.FromImage(bp);
+            try 
+            { 
                 gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
-                if (pictureBox1.Image != null)
+            }
+            catch(System.ArgumentException)
+            {
+                if(gr!=null)
                 {
-                    pictureBox1.Image.Dispose();
+                    gr.Dispose();
                 }
-                pictureBox1.Image = bp;
-                vf.WriteVideoFrame(bp);
+            }
+            if (pictureBox1.Image != null)
+            {
+                pictureBox1.Image.Dispose();
+            }
+            pictureBox1.Image = bp;
+            vf.WriteVideoFrame(bp);
+            if(gr!=null)
+            {
                 gr.Dispose();
+            }
 
         }
 
@@ -336,7 +350,7 @@ namespace WindowsFormsApp1
             else
             {
                 double data = double.Parse(text);
-                System.Diagnostics.Debug.WriteLine("time is: " + count + " and force : " + data);
+                System.Diagnostics.Debug.WriteLine("time is: " + data + " and force : " + peak_force);
 
                 if (data >= min_force && data <= max_force)
                 {
@@ -354,14 +368,12 @@ namespace WindowsFormsApp1
                     if (data > peak_force)
                     {
                         peak_force = data;
-                        if (peak_force > 0)
-                        {
-                            this.textBox1.Text = peak_force.ToString();
-                        }
-                        else
-                        {
-                            this.textBox4.Text = peak_force.ToString();
-                        }
+                        this.textBox1.Text = peak_force.ToString();
+                    }
+                    else if (data < peak_min)
+                    {
+                        peak_min = data;
+                        this.textBox4.Text = peak_min.ToString();
                     }
 
                     this.chart1.ChartAreas[0].RecalculateAxesScale();
@@ -511,13 +523,20 @@ namespace WindowsFormsApp1
                     }
                     catch (System.InvalidOperationException)
                     {
+                        if (cam != null)
+                        {
+                            cam.SignalToStop();
+                            cam = null;
+                        }
+                        System.Windows.Forms.Application.Exit();
 
                     }
                     if (cam != null)
                     {
-                        cam.Stop();
+                        cam.SignalToStop();
+                        cam = null;
                     }
-                    serialPort1.Close();
+                    //serialPort1.Close();
                     System.Windows.Forms.Application.Exit();
                     break;
 
