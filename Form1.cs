@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Diagnostics;
 
 namespace WindowsFormsApp1
 {
@@ -26,6 +27,7 @@ namespace WindowsFormsApp1
         int default_speed;
         Form3 form3;
         StreamWriter writer;
+
 
         //camera feed
         FilterInfoCollection usbCams;
@@ -50,8 +52,6 @@ namespace WindowsFormsApp1
         private Timer timer1;
 
         private VideoFileWriter vf;
-        private Bitmap bp;
-        private Graphics gr;
         private PictureBox pictureBox1 = new PictureBox();
         private string filename;
 
@@ -59,6 +59,7 @@ namespace WindowsFormsApp1
         public Form1(String comname, String drivename)
         {
             InitializeComponent();
+            pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
             this.WindowState = FormWindowState.Maximized;
 
             max_force = 1000;
@@ -77,9 +78,10 @@ namespace WindowsFormsApp1
             System.Diagnostics.Debug.WriteLine(wt + "ABC" + ht + "DEF" + s);
             pictureBox2.Height = s;
             pictureBox2.Width = (int)wt / 2;
-            this.chart1.Height = s;
 
             pictureBox2.Location = new Point(wt / 2, 0);
+            
+            this.chart1.Height = s;
 
             form3 = new Form3(default_speed, max_force, position, min_force);
             form3.Closed += form3closed;
@@ -156,88 +158,53 @@ namespace WindowsFormsApp1
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            
-            Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
-            bool source_is_wider = (float)bmp.Width / bmp.Height > (float)pictureBox2.Width / pictureBox2.Height;
-            var resized = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-            var g = Graphics.FromImage(resized);
-            var dest_rect = new Rectangle(0, 0, pictureBox2.Width, pictureBox2.Height);
-            Rectangle src_rect;
 
-            if (source_is_wider)
+                Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
+            this.Invoke(new MethodInvoker(delegate ()
             {
-                float size_ratio = (float)pictureBox2.Height / bmp.Height;
-                int sample_width = (int)(pictureBox2.Width / size_ratio);
-                src_rect = new Rectangle((bmp.Width - sample_width) / 2, 0, sample_width, bmp.Height);
-            }
-            else
-            {
-                float size_ratio = (float)pictureBox2.Width / bmp.Width;
-                int sample_height = (int)(pictureBox2.Height / size_ratio);
-                src_rect = new Rectangle(0, (bmp.Height - sample_height) / 2, bmp.Width, sample_height);
-            }
-            try
-            {
+                int wtt = pictureBox2.Width;
+                int htt = pictureBox2.Height;
+                bool source_is_wider = (float)bmp.Width / bmp.Height > (float)wtt / htt;
+                var resized = new Bitmap(wtt, htt);
+                var dest_rect = new Rectangle(0, 0, wtt, htt);
+                Rectangle src_rect;
+
+                if (source_is_wider)
+                {
+                    float size_ratio = (float)htt / bmp.Height;
+                    int sample_width = (int)(wtt / size_ratio);
+                    src_rect = new Rectangle((bmp.Width - sample_width) / 2, 0, sample_width, bmp.Height);
+                }
+                else
+                {
+                    float size_ratio = (float)wtt / bmp.Width;
+                    int sample_height = (int)(htt / size_ratio);
+                    src_rect = new Rectangle(0, (bmp.Height - sample_height) / 2, bmp.Width, sample_height);
+                }
+                var g = Graphics.FromImage(resized);
                 g.DrawImage(bmp, dest_rect, src_rect, GraphicsUnit.Pixel);
                 g.Dispose();
-                try
+                if (this.pictureBox2.Image != null)
                 {
-                    if (this.pictureBox2.Image != null)
-                    {
-                        this.pictureBox2.Image.Dispose();
-                    }
-                    this.pictureBox2.Image = resized;
+                    this.pictureBox2.Image.Dispose();
                 }
-                catch (System.InvalidOperationException)
-                {
-                    
-                    if (bmp != null)
-                    {
-                        bmp.Dispose();
-                    }
-                }
-            }
-            catch (System.OutOfMemoryException)
-            {
-                if (bmp != null)
-                {
-                    bmp.Dispose();
-                }
-            }
+                this.pictureBox2.Image = resized;
+            }));
         }
-
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                
-                bp = new Bitmap(wt, ht);
-                gr = Graphics.FromImage(bp);
+                Bitmap bp = new Bitmap(wt, ht);
+                var gr = Graphics.FromImage(bp);
                 gr.CopyFromScreen(0, 0, 0, 0, new Size(bp.Width, bp.Height));
                 if (pictureBox1.Image != null)
                 {
                     pictureBox1.Image.Dispose();
                 }
                 pictureBox1.Image = bp;
-                pictureBox1.SizeMode = PictureBoxSizeMode.Normal;
-                try
-                {
-                    vf.WriteVideoFrame(bp);
-                }
-                catch (System.OutOfMemoryException)
-                {
-                    if (bp != null)
-                    {
-                        bp.Dispose();
-                    }
-                }
+                vf.WriteVideoFrame(bp);
                 gr.Dispose();
-            }
-            catch (System.ArgumentException)
-            {
 
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)

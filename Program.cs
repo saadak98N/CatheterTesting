@@ -20,3 +20,28 @@ namespace WindowsFormsApp1
         }
     }
 }
+/*
+at System.Drawing.Image.get_Height()
+   at System.Drawing.Image.get_Size()
+   at System.Windows.Forms.PictureBox.ImageRectangleFromSizeMode(PictureBoxSizeMode mode)
+   at System.Windows.Forms.PictureBox.OnPaint(PaintEventArgs pe)
+   at System.Windows.Forms.Control.PaintWithErrorHandling(PaintEventArgs e, Int16 layer)
+   at System.Windows.Forms.Control.WmPaint(Message& m)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+An unhandled exception of type 'System.InvalidOperationException' occurred in System.Drawing.dll
+Object is currently in use elsewhere.
+
+    at System.Drawing.Image.get_Width()
+   at System.Drawing.Image.get_Size()
+   at System.Windows.Forms.PictureBox.ImageRectangleFromSizeMode(PictureBoxSizeMode mode)
+   at System.Windows.Forms.PictureBox.OnPaint(PaintEventArgs pe)
+   at System.Windows.Forms.Control.PaintWithErrorHandling(PaintEventArgs e, Int16 layer)
+   at System.Windows.Forms.Control.WmPaint(Message& m)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+ */
