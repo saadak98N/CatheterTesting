@@ -129,6 +129,7 @@ namespace WindowsFormsApp1
             this.combox.Name = "combox";
             this.combox.Size = new System.Drawing.Size(154, 21);
             this.combox.TabIndex = 10;
+            this.combox.Click += new System.EventHandler(this.combox_Click);
             // 
             // label5
             // 

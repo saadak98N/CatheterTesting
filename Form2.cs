@@ -18,11 +18,7 @@ namespace WindowsFormsApp1
         public Form2()
         {
             InitializeComponent();
-            string[] portNames = SerialPort.GetPortNames();     //<-- Reads all available comPorts
-            foreach (var portName in portNames)
-            {
-                combox.Items.Add(portName);                  //<-- Adds Ports to combobox
-            }
+            
             string[] drives = System.IO.Directory.GetLogicalDrives();
             foreach (var drive in drives)
             {
@@ -60,6 +56,16 @@ namespace WindowsFormsApp1
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void combox_Click(object sender, EventArgs e)
+        {
+            combox.Items.Clear();
+            string[] portNames = SerialPort.GetPortNames();     //<-- Reads all available comPorts
+            foreach (var portName in portNames)
+            {
+                combox.Items.Add(portName);                  //<-- Adds Ports to combobox
+            }
         }
     }
 }

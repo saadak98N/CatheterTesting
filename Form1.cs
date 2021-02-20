@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using Captura;
 using System.Diagnostics;
 
 namespace WindowsFormsApp1
@@ -28,8 +29,9 @@ namespace WindowsFormsApp1
         int default_speed;
         Form3 form3;
         StreamWriter writer;
+        Recorder rec;
 
-
+        
         //camera feed
         FilterInfoCollection usbCams;
         String camname = "A4tech FHD 1080P PC Camera";
@@ -50,9 +52,9 @@ namespace WindowsFormsApp1
         private String dept = "";
 
         //Screen recording variables
-        private Timer timer1;
+        //private Timer timer1;
 
-        private VideoFileWriter vf;
+        //private VideoFileWriter vf;
         private PictureBox pictureBox1 = new PictureBox();
         private string filename;
 
@@ -101,9 +103,9 @@ namespace WindowsFormsApp1
                 }
             }
 
-            timer1 = new Timer();
-            timer1.Tick += timer1_Tick;
-            vf = new VideoFileWriter();
+            //timer1 = new Timer();
+            //timer1.Tick += timer1_Tick;
+            //vf = new VideoFileWriter();
 
             this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);
@@ -193,7 +195,7 @@ namespace WindowsFormsApp1
             }));
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        /*private void timer1_Tick(object sender, EventArgs e)
         {
             Bitmap bp = new Bitmap(wt, ht);
             var gr = Graphics.FromImage(bp);
@@ -213,13 +215,13 @@ namespace WindowsFormsApp1
                 pictureBox1.Image.Dispose();
             }
             pictureBox1.Image = bp;
-            vf.WriteVideoFrame(bp);
+            //vf.WriteVideoFrame(bp);
             if(gr!=null)
             {
                 gr.Dispose();
             }
 
-        }
+        }*/
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -270,7 +272,7 @@ namespace WindowsFormsApp1
             filename = @mypath + lot + ".avi";
             if (System.IO.File.Exists(filename))
                 System.IO.File.Delete(filename);
-
+            rec = new Recorder(new RecorderParams(filename, 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
             textName = mypath + lot + ".txt";
             writer = new StreamWriter(textName, true);
             using (writer)
@@ -278,13 +280,13 @@ namespace WindowsFormsApp1
                 writer.Write("time,force \n");
             }
 
-            if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
+            //if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
 
             System.Diagnostics.Debug.WriteLine("time is: " + wt + ht);
 
-            vf.Open(filename, wt, ht, 25, VideoCodec.MPEG4, 1000000);
+            //vf.Open(filename, wt, ht, 25, VideoCodec.MPEG4, 1000000);
 
-            timer1.Start();
+            //timer1.Start();
             serialPort1.WriteLine("*CF000\'");
             chart1.Series["Force vs Time"].Points.Clear();
             this.chart1.ChartAreas[0].AxisX.Minimum = 0;
@@ -536,7 +538,7 @@ namespace WindowsFormsApp1
                         cam.SignalToStop();
                         cam = null;
                     }
-                    //serialPort1.Close();
+                    serialPort1.Close();
                     System.Windows.Forms.Application.Exit();
                     break;
 
@@ -623,8 +625,6 @@ namespace WindowsFormsApp1
 
         private void stop_Click(object sender, EventArgs e)
         {
-            timer1.Stop();
-            vf.Close();
             serialPort1.WriteLine("*CP000\'");
             this.home.Enabled = true;
             this.play.Enabled = false;
@@ -636,6 +636,7 @@ namespace WindowsFormsApp1
             this.textBox3.Enabled = true;
             this.textBox2.Enabled = true;
             this.comboBox1.Enabled = true;
+            rec.Dispose();
         }
 
         private void res_Click(object sender, EventArgs e)
