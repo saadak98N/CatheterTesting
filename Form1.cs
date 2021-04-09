@@ -123,7 +123,7 @@ namespace WindowsFormsApp1
             catch (System.IO.IOException)
             {
                 form3.Hide();
-                cam.Stop();
+                //cam.Stop();
                 MessageBox.Show("Invalid Serial port found, close application and try again.");
                 System.Windows.Forms.Application.Exit();
 
@@ -229,8 +229,16 @@ namespace WindowsFormsApp1
             System.Diagnostics.Debug.WriteLine("pressed");
             if (!String.IsNullOrEmpty(this.textBox3.Text) && dept != "")
             {
+                if(rec!=null)
+                {
+                    rec.Dispose();
+                }
                 serialPort1.WriteLine("*CH000\'");
+                peak_force = 0.0;
+                peak_min = 0.0;
                 this.label6.Visible = false;
+                this.textBox1.Text = "0.0";
+                this.textBox4.Text = "0.0";
                 lot = this.textBox3.Text;
                 this.home.Enabled = false;
                 this.play.Enabled = true;
@@ -517,6 +525,26 @@ namespace WindowsFormsApp1
                 tosend = String.Concat(tosend, "P5\'");
                 serialPort1.WriteLine(tosend);
             }
+            else if (this.position == 6)
+            {
+                tosend = String.Concat(tosend, "P6\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 7)
+            {
+                tosend = String.Concat(tosend, "P7\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 8)
+            {
+                tosend = String.Concat(tosend, "P8\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 9)
+            {
+                tosend = String.Concat(tosend, "P9\'");
+                serialPort1.WriteLine(tosend);
+            }
             System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
 
         }
@@ -628,13 +656,32 @@ namespace WindowsFormsApp1
                 tosend = String.Concat(tosend, "P5\'");
                 serialPort1.WriteLine(tosend);
             }
+            else if (this.position == 6)
+            {
+                tosend = String.Concat(tosend, "P6\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 7)
+            {
+                tosend = String.Concat(tosend, "P7\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 8)
+            {
+                tosend = String.Concat(tosend, "P8\'");
+                serialPort1.WriteLine(tosend);
+            }
+            else if (this.position == 9)
+            {
+                tosend = String.Concat(tosend, "P9\'");
+                serialPort1.WriteLine(tosend);
+            }
             System.Diagnostics.Debug.WriteLine("button " + max_force + "  " + default_speed + "     " + tosend + "  " + min_force + "     ");
 
         }
 
         private void stop_Click(object sender, EventArgs e)
         {
-            serialPort1.WriteLine("*CP000\'");
             this.home.Enabled = true;
             this.play.Enabled = false;
             this.stop.Enabled = false;
@@ -645,7 +692,7 @@ namespace WindowsFormsApp1
             this.textBox3.Enabled = true;
             this.textBox2.Enabled = true;
             this.comboBox1.Enabled = true;
-            rec.Dispose();
+            serialPort1.WriteLine("*CP000\'");
         }
 
         private void res_Click(object sender, EventArgs e)
