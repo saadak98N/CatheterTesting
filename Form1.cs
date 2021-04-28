@@ -145,13 +145,16 @@ namespace WindowsFormsApp1
             pause.Width = wt / 15;
             ss.Height = ht / 9;
             ss.Width = wt / 15;
+            rev.Height = ht / 9;
+            rev.Width = wt / 15;
 
             home.Location = new Point(((((wt/2)/2)/2)/2)/2, settings.Location.Y - settings.Height - 2);
             play.Location = new Point(home.Location.X + home.Width + 10, settings.Location.Y - settings.Height - 2);
             stop.Location = new Point(play.Location.X + play.Width + 10, settings.Location.Y - settings.Height - 2);
             res.Location = new Point(stop.Location.X + stop.Width + 10, settings.Location.Y - settings.Height - 2);
             pause.Location = new Point(res.Location.X + res.Width + 10, settings.Location.Y - settings.Height - 2);
-            ss.Location = new Point(pause.Location.X + pause.Width + 10, settings.Location.Y - settings.Height - 2);
+            rev.Location = new Point(pause.Location.X + pause.Width + 10, settings.Location.Y - settings.Height - 2);
+            ss.Location = new Point(rev.Location.X + rev.Width + 10, settings.Location.Y - settings.Height - 2);
 
             label4.Location = new Point(chart1.Width / 2, chart1.Height - 2);
 
@@ -159,6 +162,7 @@ namespace WindowsFormsApp1
             stop.Enabled = false;
             res.Enabled = false;
             pause.Enabled = false;
+            rev.Enabled = false;
         }
         private void FinalFrame_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
@@ -242,6 +246,7 @@ namespace WindowsFormsApp1
                 lot = this.textBox3.Text;
                 this.home.Enabled = false;
                 this.play.Enabled = true;
+                this.rev.Enabled = true;
                 this.pause.Enabled = false;
                 this.res.Enabled = false;
                 this.textBox3.Enabled = false;
@@ -304,7 +309,8 @@ namespace WindowsFormsApp1
                 this.chart1.ChartAreas[0].AxisX.Maximum = 15;
                 count = 0;
                 this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
-                //this.play_flag = 0;
+                System.Diagnostics.Debug.WriteLine("start!");
+            //this.play_flag = 0;
             //}
         }
 
@@ -684,6 +690,7 @@ namespace WindowsFormsApp1
         {
             this.home.Enabled = true;
             this.play.Enabled = false;
+            this.rev.Enabled = false;
             this.stop.Enabled = false;
             this.pause.Enabled = false;
             this.res.Enabled = false;
@@ -701,6 +708,12 @@ namespace WindowsFormsApp1
             System.Diagnostics.Debug.WriteLine("Resumed");
             res.Enabled = false;
             pause.Enabled = true;
+        }
+
+        private void rev_Click(object sender, EventArgs e)
+        {
+            serialPort1.WriteLine("*CB000\'");
+            System.Diagnostics.Debug.WriteLine("Back");
         }
     }
 }

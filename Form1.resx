@@ -344,6 +344,25 @@
         KKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z
 </value>
   </data>
+  <data name="rev.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAMgSURBVFhHxZexjhMxEIY3l1xysAKkayjS8wKpIigiEQVSJF2o8wC8AU3egAIqeAteAPFOiAIh
+        LZ7JjPnHZ6/Xe8tlJMeOM+P/W6/Hjiu11Wp1I02yEX0sFotr/uZsuVw+kqZpgw/HkOFY6NtXo9rv90+k
+        WZ1Opyuqj8ejH2y9Xj+TpmkfDgcexNVj7nC23W6fStP49tUwT6VCKkw2BBz2F2pMpVkWqE+uM0GGMzQE
+        HM6uF+oSqD4S01CZTMZcn9sTaPv+mEbTUeO8WEvgRqNRDCIF16h/Xc/euJpMfdna4NgKEsKLUSmBG4+v
+        4Pd/vjE4V/t1bdJ8ALgvs9n1R1f/pu85OJzFGNxut3sszTTcZrOpXZWCM74tCSFxd+CovM8lXZ+ZY0vB
+        RRKiSsDp7Bo4HMvs2BeCa1Jw8vbO1hcud0JMp9NvrpIx7sKBhoFDjRhcbCthS82ci+uyCX93JQbXJOHw
+        FeuTR+CeU/894diChHjlimr8on70NVmsg0sgwlFJwsXWXAou0GBLzRz2h4HvXEG4lxeF043aDaAbJMKZ
+        nf5Sf8tMIMJJ1rHhgOqvwmRDwMU0yPw/YaFHOAbsC5c7IXJwrm/GHWTggHAm/R9izcU0jAPCyetmuxgc
+        /uWXQIRjQA18iIRAjdRRh3CNCuFTDQEH/f5E0T8OZOhrviCcBHaC65sQARzrGTg86iTw4Ip/qrq+eU2/
+        kaXg9AF6rjmEM/uuecUlT/W/4Nxk3dJvZBgXW6wmcD6fv6DfyGJwXdZcLCFQAw8FA9dyccdADu4Lh/3q
+        H4H7Qf2BRuvFHeHME973hIjA8dgYh9uNFwI4dQ4HoW2HfRCuy8y1vFYq4cwZjdaLO8Lp4APDfW6DY8uc
+        EPRaPJxmOJUUXC7pAO5nDM7Vfl0PfXH/6i7un1z9h75Htiv0/ZCD63RxDxJCRKJwpj8D16bBhm8hN3Mm
+        UF5rKNgV7q0rXTXOlrm4JwPFV8Tb4XpMAFvu4k61Xw8FCZFLOrYSjd6B2K/+Gk82CFzs4o5TXnJCdIEr
+        0Qgv7nzuYSA64HrAfvV3wP6Cg77YLteoqr8QZQ9QBEiwwQAAAABJRU5ErkJggg==
+</value>
+  </data>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
