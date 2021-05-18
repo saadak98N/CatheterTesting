@@ -199,12 +199,50 @@ namespace WindowsFormsApp1
                 lot = this.textBox3.Text;
                 this.home.Enabled = false;
                 this.play.Enabled = true;
+                this.stop.Enabled = true;
                 this.rev.Enabled = true;
                 this.pause.Enabled = false;
                 this.res.Enabled = false;
                 this.textBox3.Enabled = false;
                 this.textBox2.Enabled = false;
                 this.comboBox1.Enabled = false;
+
+
+                string pathToNewFolder = System.IO.Path.Combine(drive + "Recordings_NHT", dept);
+                System.Diagnostics.Debug.WriteLine("time is: " + pathToNewFolder);
+
+                DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+                DateTime today = DateTime.Today;
+                string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
+                String name = pathToNewFolder + "lot_" + lot + today + ".avi";
+                filename = @mypath + lot + ".avi";
+                textName = mypath + lot + ".txt";
+                if (System.IO.File.Exists(filename))
+                {
+                    filename = filename.Substring(0, filename.Length - 4);
+                    filename = filename + val.ToString() + ".avi";
+
+                    textName = textName.Substring(0, textName.Length - 4);
+                    textName = textName + val.ToString() + ".txt";
+                    System.Diagnostics.Debug.WriteLine("f: " + filename);
+                    System.Diagnostics.Debug.WriteLine("t: " + textName);
+                    val++;
+                }
+                //rec = new Recorder(new RecorderParams(filename, 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
+                writer = new StreamWriter(textName, true);
+                using (writer)
+                {
+                    writer.Write("time,force \n");
+                }
+
+                System.Diagnostics.Debug.WriteLine("time is: " + wt + ht);
+                //serialPort1.WriteLine("*CF000\'");
+                chart1.Series["Force vs Time"].Points.Clear();
+                this.chart1.ChartAreas[0].AxisX.Minimum = 0;
+                this.chart1.ChartAreas[0].AxisX.Maximum = 15;
+                count = 0;
+                this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
+                //System.Diagnostics.Debug.WriteLine("start!");
             }
             else
             {
@@ -230,7 +268,7 @@ namespace WindowsFormsApp1
             this.play.Enabled = false;
 
             string pathToNewFolder = System.IO.Path.Combine(drive + "Recordings_NHT", dept);
-            System.Diagnostics.Debug.WriteLine("time is: " + pathToNewFolder);
+            //System.Diagnostics.Debug.WriteLine("time is: " + pathToNewFolder);
 
             DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
             DateTime today = DateTime.Today;
@@ -238,7 +276,7 @@ namespace WindowsFormsApp1
             String name = pathToNewFolder + "lot_" + lot + today + ".avi";
             filename = @mypath + lot + ".avi";
             textName = mypath + lot + ".txt";
-            if (System.IO.File.Exists(filename))
+            /*if (System.IO.File.Exists(filename))
             {
                 filename = filename.Substring(0, filename.Length - 4);
                 filename = filename + val.ToString() + ".avi";
@@ -248,22 +286,22 @@ namespace WindowsFormsApp1
                 System.Diagnostics.Debug.WriteLine("f: "+filename);
                 System.Diagnostics.Debug.WriteLine("t: "+textName);
                 val++;
-            }
+            }*/
             rec = new Recorder(new RecorderParams(filename, 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
-            writer = new StreamWriter(textName, true);
+            /*writer = new StreamWriter(textName, true);
             using (writer)
             {
                 writer.Write("time,force \n");
-            }
+            }*/
 
             System.Diagnostics.Debug.WriteLine("time is: " + wt + ht);
             serialPort1.WriteLine("*CF000\'");
-            chart1.Series["Force vs Time"].Points.Clear();
+            /*chart1.Series["Force vs Time"].Points.Clear();
             this.chart1.ChartAreas[0].AxisX.Minimum = 0;
             this.chart1.ChartAreas[0].AxisX.Maximum = 15;
             count = 0;
             this.chart1.Series["Force vs Time"].Points.AddXY(0, 0);
-            System.Diagnostics.Debug.WriteLine("start!");
+            System.Diagnostics.Debug.WriteLine("start!");*/
         }
 
         private void SerialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
