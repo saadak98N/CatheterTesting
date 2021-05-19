@@ -16,6 +16,7 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         String drive;
+        int check_start = 0;
         int ht;
         int wt;
         int s;
@@ -217,7 +218,7 @@ namespace WindowsFormsApp1
                 String name = pathToNewFolder + "lot_" + lot + today + ".avi";
                 filename = @mypath + lot + ".avi";
                 textName = mypath + lot + ".txt";
-                if (System.IO.File.Exists(filename))
+                if (System.IO.File.Exists(textName))
                 {
                     filename = filename.Substring(0, filename.Length - 4);
                     filename = filename + val.ToString() + ".avi";
@@ -267,27 +268,28 @@ namespace WindowsFormsApp1
             this.settings.Enabled = false;
             this.play.Enabled = false;
 
-            string pathToNewFolder = System.IO.Path.Combine(drive + "Recordings_NHT", dept);
+            //string pathToNewFolder = System.IO.Path.Combine(drive + "Recordings_NHT", dept);
             //System.Diagnostics.Debug.WriteLine("time is: " + pathToNewFolder);
 
-            DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
-            DateTime today = DateTime.Today;
-            string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
-            String name = pathToNewFolder + "lot_" + lot + today + ".avi";
-            filename = @mypath + lot + ".avi";
-            textName = mypath + lot + ".txt";
+            //DirectoryInfo directory = Directory.CreateDirectory(pathToNewFolder);
+            //DateTime today = DateTime.Today;
+            //string mypath = System.IO.Path.Combine(drive + "Recordings_NHT\\" + dept, today.Date.ToString("dddd_dd MMMM yyyy "));
+            //String name = pathToNewFolder + "lot_" + lot + today + ".avi";
+            //filename = @mypath + lot + ".avi";
+            //textName = mypath + lot + ".txt";
             /*if (System.IO.File.Exists(filename))
             {
                 filename = filename.Substring(0, filename.Length - 4);
                 filename = filename + val.ToString() + ".avi";
 
-                textName = textName.Substring(0, textName.Length - 4);
+*//*                textName = textName.Substring(0, textName.Length - 4);
                 textName = textName + val.ToString() + ".txt";
                 System.Diagnostics.Debug.WriteLine("f: "+filename);
                 System.Diagnostics.Debug.WriteLine("t: "+textName);
-                val++;
+*//*                val++;
             }*/
             rec = new Recorder(new RecorderParams(filename, 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
+            check_start = 1;
             /*writer = new StreamWriter(textName, true);
             using (writer)
             {
@@ -674,10 +676,16 @@ namespace WindowsFormsApp1
 
         private void stop_Click(object sender, EventArgs e)
         {
-            if (rec != null)
+            if(check_start==1)
             {
-                rec.Dispose();
+                if (rec != null)
+                {
+                    rec.Dispose();
+                }
+                check_start = 0;
             }
+
+
             this.home.Enabled = true;
             this.play.Enabled = false;
             this.rev.Enabled = false;
