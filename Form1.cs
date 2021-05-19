@@ -694,7 +694,7 @@ namespace WindowsFormsApp1
 
         private void res_Click(object sender, EventArgs e)
         {
-            serialPort1.WriteLine("*CF000\'");
+            serialPort1.WriteLine("*CR000\'");
             System.Diagnostics.Debug.WriteLine("Resumed");
             res.Enabled = false;
             pause.Enabled = true;
